@@ -1,0 +1,163 @@
+---
+title: 'Stat/CS 187: Final Project'
+author: "Huaye Yang, Halina Vercessi, and Matthew Mccarthy"
+date: "Spring 2022"
+output:
+  word_document:
+    toc: yes
+  html_document:
+    toc: yes
+    df_print: paged
+---
+  
+
+```{r setup, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.width=8, 
+                      fig.height=5) 
+
+# Load the packages
+pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
+               usmap, maps, statebins, viridis, leaflet)
+
+
+```  
+
+***
+
+# 1. Introduction
+
+
+**What is the source of the data?**  
+**Where and when was it created?**
+
+Assigned to: Halina Vercessi 
+
+
+**If it is a sample, from what population was it drawn, and how was the sample selected?**
+**Do you suspect any sampling bias?**
+**Was it an experiment or an observational study?**
+
+Assigned to: Matthew Mccarthy
+
+
+**How were measurements taken, or questions asked? Do you suspect any bias in the questions or measurements?**
+
+Assigned to: Huaye Yang 
+
+
+**Why is this data of interest to you, and why should the class find it interesting?**
+**What kind of data cleaning was necessary (rename columns, n/a in the survey = not applicable, option = add blank space placeholder/indicator**
+**Data cleaning implementation**
+
+
+Assigned to: Halina Vercessi
+
+
+
+```{r clean_data}
+sleeping_alone_data <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
+summary(sleeping_alone_data$X.2)
+# Do data clean-up here!
+
+```
+
+***
+
+# 2. Data Visualizations
+
+**Create 4 graphs. Write a paragraph summarizing what you see, and suggesting some implications**
+
+
+## 2.1 Length of Relationship and Age (Graph 1):  
+
+
+**Relate the length of relationships, bed status (separate beds vs same bed), and age.**
+
+**Is it more likely that couples who have been together longer will sleep in separate beds more often?**
+
+
+### 2.1.1 Graph 1 --> Halina 
+```{r 2a_graph1}
+# GRAPH 1
+# Categorical 
+# Scatter plot (or bar...)
+# Possibly boxplot 
+
+```
+
+### 2.1.2 Summarizing Paragraph:
+
+
+***
+
+
+## 2.2 Occupation and Income (Graph 2 and Graph 3) --> Huaye
+
+**Relate occupation, income, and bed status with how often they sleep separately.**
+
+**Do occupational demands affect sleeping status? Is someone with a more demanding job more likely to sleep separately?**
+**(Could call for inclusion or examination of another data-set that has information on occupational categories and average hours worked per day or week.)**
+
+
+### 2.2.1 Graph 2
+```{r 2b_graph2}
+# GRAPH 2
+
+# Relate occupation to bed status (and how often they sleep)
+
+```
+
+### 2.2.2 Summarizing Paragraph:
+
+
+***
+
+
+### 2.2.3 Graph 3
+```{r 2b_graph3}
+# GRAPH 3
+
+# Second graph could build on first (add income as a factor)
+
+```
+
+### 2.2.4 Summarizing Paragraph:
+
+
+***
+
+
+
+## 2.3 Reasons for Sleeping Separately (Graph 4) --> Matthew
+
+**Relate how often couples sleep in different beds with the reason they sleep separately.**
+
+**How correlated are the reasons they sleep in separate beds with the frequency they sleep together?**
+**Reasons include snoring, frequent bathroom trips, sickness, intimacy issues, etc.**
+
+### 2.3.1 Graph 4
+```{r 2c_graph4}
+# GRAPH 4
+
+# Categorical (bar or scatter plot)
+
+```
+
+### 2.3.2 Summarizing Paragraph:
+
+
+***
+
+
+**NOTE: put conclusion section together at end after summary paragraphs are written (draw from those)**
+# 3 Conclusions:  
+**Write some overall conclusions – an overall summary of what you learned from your visualizations and analysis. Summarize in one paragraph**
+
+# 4 Limitations / Recommendations: 
+**Write a paragraph describing some of the limitations that are inherent in your study. Also discuss ideas for future research that might build on the work you did in this project. Summarize in one paragraph.**
+
+
+
+
+
