@@ -61,7 +61,7 @@ Assigned to: Halina Vercessi
 sleeping_alone_data1 <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
 
 # Take a look at the relationship status column, 7 categories
-summary(sleeping_alone_data1$Which.of.the.following.best.describes.your.current.relationship.status.)
+summary(sleeping_alone_data1)
 
 # Rename columns to simpler names based on survey questions
 sleeping_alone_data <- sleeping_alone_data1 %>%
@@ -80,6 +80,10 @@ sleeping_alone_data <- sleeping_alone_data1 %>%
          Household_Income = Household.Income,  
          Location_Census_Region = Location..Census.Region.)
   
+
+sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
+
+head(sleeping_alone_data)
 
 ```
 
@@ -104,6 +108,8 @@ sleeping_alone_data <- sleeping_alone_data1 %>%
 # Categorical 
 # Scatter plot (or bar...)
 # Possibly boxplot 
+
+
 
 ```
 
