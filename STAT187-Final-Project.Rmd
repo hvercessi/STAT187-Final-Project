@@ -109,7 +109,13 @@ head(sleeping_alone_data)
 # Scatter plot (or bar...)
 # Possibly boxplot 
 
-
+sleeping_alone_data %>% group_by()
+ggplot(data = sleeping_alone_data, 
+        mapping = aes(x = Relationship_Length)) +
+  geom_bar() +
+  labs(y = "Number Sleeping in ")
+  
+  scale_x_discrete(name = "Relationship Length (years)", labels = c("No Answer", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" ))
 
 ```
 
