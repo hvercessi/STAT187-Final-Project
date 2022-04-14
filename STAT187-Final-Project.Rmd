@@ -29,8 +29,9 @@ pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
 
 
 **What is the source of the data? Where and when was it created?** 
-The data comes from a survey that was conducted in 2014 by Mona Chalabi. 
-Article on the data from the source: https://fivethirtyeight.com/features/dear-mona-how-many-couples-sleep-in-separate-beds/
+The data comes from a survey created in 2014 by Mona Chalabi as research for an article for Five Thirty Eight (from ABC News). 
+The survey was filled out by 1,057 American adults. 
+Here is the article that resulted from the survey: https://fivethirtyeight.com/features/dear-mona-how-many-couples-sleep-in-separate-beds/
 
 
 Assigned to: Halina Vercessi 
