@@ -49,7 +49,7 @@ Assigned to: Huaye Yang
 **Why is this data of interest to you, and why should the class find it interesting?**
 **What kind of data cleaning was necessary (rename columns, n/a in the survey = not applicable, option = add blank space placeholder/indicator**
 **Data cleaning implementation**
-
+This data is interesting because it is the kind of data that could be useful to psychologists and social workers. It offers insight to groups of couples and it is purely categorical data. The cleaning that we did in the data was to remname the columns because the original column name we the survey questions separated by periods and they were very long. We also removed the first row as it served as almost a second title row but was being couted in the rows of data. We considerred labeling the blank / no answer spaces as N/A but N/A means something in this data as it is a valid response to specific check boxes. 
 
 Assigned to: Halina Vercessi
 
