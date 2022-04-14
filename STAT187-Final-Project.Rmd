@@ -27,7 +27,7 @@ pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
 
 # 1. Introduction
 
-
+TO-DO: Before submitting, remove the questions from the intro outline and combine all the writing into one/two paragraphs.
 **What is the source of the data? Where and when was it created?** 
 Before this survey, the most detailed data and reports on this subject were gathered and made in 2004 by the National Sleep Foundation. The data from the National Sleep Foundation provided the numbers on how many couples slept separately but did not gather data that could offer insight as to the reasons couples sleep apart and why couples sleep in separate beds. This data is interesting because it is the kind of data that could be useful to psychologists and social workers. This data can be used to examine stereotypes we have about why couples sleep separately and which age ranges of couples sleep separately along with being useful for examining why couples sleep separately.
 The data comes from a survey created in 2014 by Mona Chalabi as research for an article for Five Thirty Eight (from ABC News). 
