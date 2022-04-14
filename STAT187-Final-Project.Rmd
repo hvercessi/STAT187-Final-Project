@@ -13,8 +13,8 @@ output:
 
 ```{r setup, message = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      fig.width=8, 
-                      fig.height=5) 
+                      fig.width=13, 
+                      fig.height=13) 
 
 # Load the packages
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
@@ -109,13 +109,21 @@ head(sleeping_alone_data)
 # Scatter plot (or bar...)
 # Possibly boxplot 
 
-sleeping_alone_data %>% group_by()
+#sleeping_alone_data %>% mutate(c(How_Often_Sep_Beds!="Never")) 
+
 ggplot(data = sleeping_alone_data, 
-        mapping = aes(x = Relationship_Length)) +
-  geom_bar() +
-  labs(y = "Number Sleeping in ")
+        mapping = aes(x = Relationship_Length, 
+                      y = How_Often_Sep_Beds)) +
   
-  scale_x_discrete(name = "Relationship Length (years)", labels = c("No Answer", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" ))
+  geom_jitter(mapping = aes(color = Age)) +
+  
+  facet_wrap(facets = ~Age,
+         nrow = 3) +
+  
+  scale_x_discrete(name = "Relationship Length (years)", labels = c("No Answer", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+  
+  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less"))
+
 
 ```
 
