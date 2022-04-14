@@ -13,8 +13,8 @@ output:
 
 ```{r setup, message = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      fig.width=13, 
-                      fig.height=11 )
+                      fig.width=10, 
+                      fig.height=10 )
 
 # Load the packages
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
@@ -28,8 +28,10 @@ pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
 # 1. Introduction
 
 
-**What is the source of the data?**  
-**Where and when was it created?**
+**What is the source of the data? Where and when was it created?** 
+The data comes from a survey that was conducted in 2014 by Mona Chalabi. 
+Article on the data from the source: https://fivethirtyeight.com/features/dear-mona-how-many-couples-sleep-in-separate-beds/
+
 
 Assigned to: Halina Vercessi 
 
@@ -49,7 +51,9 @@ Assigned to: Huaye Yang
 **Why is this data of interest to you, and why should the class find it interesting?**
 **What kind of data cleaning was necessary (rename columns, n/a in the survey = not applicable, option = add blank space placeholder/indicator**
 **Data cleaning implementation**
-This data is interesting because it is the kind of data that could be useful to psychologists and social workers. It offers insight to groups of couples and it is purely categorical data. The cleaning that we did in the data was to remname the columns because the original column name we the survey questions separated by periods and they were very long. We also removed the first row as it served as almost a second title row but was being couted in the rows of data. We considered labeling the blank / no answer spaces as N/A but N/A means something in this data as it is a valid response to specific check boxes. 
+Before this survey, the most detailed data and reports on this subject were gathered and made in 2004 by the National Sleep Foundation. The data from the National Sleep Foundation provided the numbers on how many couples slept separately but did not gather data that could offer insight as to the reasons couples sleep apart and why couples sleep in separate beds. This data is interesting because it is the kind of data that could be useful to psychologists and social workers. This data can be used to examine stereotypes we have about why couples sleep separately and which age ranges of couples sleep separately along with being useful for examining why couples sleep separately.
+
+Something that is interesting to note when working with this data is that the responses are purely categorical, not numeric. The cleaning that we did in the data was to rename the columns because the original column names were built from the survey questions (separated by periods) and they were very long and tedious to work with. We also removed the first row as it served as almost a second title row but was being counted in the rows of data. We considered labeling the blank / no answer spaces as N/A but N/A means something in this data as it is a valid response to specific check boxes. 
 
 Assigned to: Halina Vercessi
 
@@ -105,45 +109,119 @@ head(sleeping_alone_data)
 ### 2.1.1 Graph 1 --> Halina 
 ```{r 2a_graph1}
 
-length_and_start_graph <-
-  ggplot(data = sleeping_alone_data, 
-        mapping = aes(x = Relationship_Length, 
-                      y = How_Often_Sep_Beds)) +
+sleeping_alone_data2 <- sleeping_alone_data %>%
   
-  geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
+  group_by(Relationship_Length, How_Often_Sep_Beds) %>%
   
-  facet_wrap(facets = ~When_First_Time_Sep_Beds) +
+  summarise(count_freq = n()) %>%
   
-  scale_x_discrete(name = "Relationship Length (years)", labels = c("No Answer", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+  mutate(Proportion = round(count_freq/sum(count_freq), digits = 5)) %>%
   
-  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
+  select(Relationship_Length, How_Often_Sep_Beds, Proportion) %>% 
   
-  theme(legend.position = "NA")
-
-length_and_start_graph
+  slice(-c(1)) %>%
+  
+  ungroup()
 
 
+rel_length_bar <- ggplot(data = sleeping_alone_data2,
+                            mapping = aes(x = Relationship_Length,
+                                          y = Proportion, 
+                                          fill = How_Often_Sep_Beds)) +
+  
+                     geom_col(position = "dodge") + 
+  
+                     labs(x = "Relationship Length",
+                          fill = "How Often Couples Sleep Separately", 
+                          title = "Frequency Sleeping Separately and Relationship Length (proportions)")+
+  
+                    scale_y_continuous(labels = scales::percent) +
+                    scale_x_discrete(name = "Relationship Length (years)", labels = c("No Answer", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+                    facet_wrap(~How_Often_Sep_Beds) +
+                    theme(legend.position = "NA")
+rel_length_bar
+
+# OLD FIGURE IDEA
+
+# length_and_start_graph <-
+#   ggplot(data = sleeping_alone_data, 
+#         mapping = aes(x = Relationship_Length, 
+#                       y = How_Often_Sep_Beds)) +
+#   
+#   geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
+#   
+#   facet_wrap(facets = ~When_First_Time_Sep_Beds) +
+#   
+#   scale_x_discrete(name = "Relationship Length (years)", labels = c("No Answer", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+#   
+#   scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
+#   
+#   theme(legend.position = "NA") +
+#   
+#   labs(title = "Relationship Length, Frequency Sleeping in Separate Beds, and When it Started")
+# 
+# length_and_start_graph
 ```
+
 ```{r 2a_graph1.1}
 
-start_and_age_graph <-
-  ggplot(data = sleeping_alone_data, 
-        mapping = aes(x = Age, 
-                      y = How_Often_Sep_Beds)) +
-  
-  geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
-  
-  facet_wrap(facets = ~When_First_Time_Sep_Beds) +
-  
-  scale_x_discrete(name = "Age Range", labels = c("No Answer", "60-Up", "18-29", "30-44", "45-60")) +
-  
-  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
-  
-  theme(legend.position = "NA")
 
-start_and_age_graph
+sleeping_alone_data3 <- sleeping_alone_data %>%
+  
+  group_by(Age, How_Often_Sep_Beds) %>%
+  
+  summarise(count_freq = n()) %>%
+  
+  mutate(Proportion = round(count_freq/sum(count_freq), digits = 5)) %>%
+  
+  select(Age, How_Often_Sep_Beds, Proportion) %>% 
+  
+  slice(-c(1)) %>%
+  
+  ungroup()
+
+
+prop_age_bar <- ggplot(data = sleeping_alone_data3,
+                            mapping = aes(x = Age,
+                                          y = Proportion, 
+                                          fill = How_Often_Sep_Beds)) +
+  
+                     geom_col(position = "dodge") + 
+  
+                     labs(x = "Age",
+                          fill = "How Often Couples Sleep Separately", 
+                          title = "Frequency Sleeping Separately and Age (proportions)")+
+  
+                    scale_y_continuous(labels = scales::percent)+ 
+                    scale_x_discrete(name = "Age Range", labels = c("No Answer", "60-Up", "18-29", "30-44", "45-60")) +
+                    facet_wrap(~How_Often_Sep_Beds) +
+                    theme(legend.position = "NA")
+prop_age_bar
+
+# OLD FIGURE IDEA
+# start_and_age_graph <-
+#   ggplot(data = sleeping_alone_data, 
+#         mapping = aes(x = Age, 
+#                       y = How_Often_Sep_Beds)) +
+#   
+#   geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
+#   
+#   facet_wrap(facets = ~When_First_Time_Sep_Beds) +
+#   
+#   scale_x_discrete(name = "Age Range", labels = c("No Answer", "60-Up", "18-29", "30-44", "45-60")) +
+#   
+#   scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
+#   
+#   theme(legend.position = "NA") +
+#   
+#   labs(title = "Relationship Length, Frequency Sleeping in Separate Beds, and When it Started")
+# 
+# start_and_age_graph
+
 
 ```
+
+
 
 ### 2.1.2 Summarizing Paragraph:
 From this graph, it appears that the majority of couples who do sleep in separate beds every night started sleeping separately earlier
