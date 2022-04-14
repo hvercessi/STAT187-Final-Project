@@ -66,7 +66,7 @@ Assigned to: Halina Vercessi
 sleeping_alone_data1 <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
 
 # Take a look at the relationship status column, 7 categories
-summary(sleeping_alone_data1)
+#summary(sleeping_alone_data1)
 
 # Rename columns to simpler names based on survey questions
 sleeping_alone_data <- sleeping_alone_data1 %>%
