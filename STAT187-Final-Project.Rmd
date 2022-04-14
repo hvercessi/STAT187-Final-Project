@@ -56,9 +56,34 @@ Assigned to: Halina Vercessi
 
 
 ```{r clean_data}
-sleeping_alone_data <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
-summary(sleeping_alone_data$X.2)
-# Do data clean-up here!
+
+# Read in data
+sleeping_alone_data1 <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
+
+# Take a look at the relationship status column, 7 categories
+summary(sleeping_alone_data1)
+
+# Rename columns to simpler names based on survey questions
+sleeping_alone_data <- sleeping_alone_data1 %>%
+  
+  rename( Relationship_Status = Which.of.the.following.best.describes.your.current.relationship.status., 
+         Relationship_Length = How.long.have.you.been.in.your.current.relationship..If.you.are.not.currently.in.a.relationship..please.answer.according.to.your.last.relationship.,
+         How_Often_Sep_Beds = When.both.you.and.your.partner.are.at.home..how.often.do.you.sleep.in.separate.beds., 
+         Diff_Bed_Where_You_Sleep = When.you.re.not.sleeping.in.the.same.bed.as.your.partner..where.do.you.typically.sleep., 
+         Diff_Bed_Where_Partner_Sleep = When.you.re.not.sleeping.in.the.same.bed..where.does.your.partner.typically.sleep., 
+         Sep_Beds_Reasons = What.are.the.reasons.that.you.sleep.in.separate.beds..Please.select.all.that.apply., 
+         When_First_Time_Sep_Beds = When.was.the.first.time.you.slept.in.separate.beds., 
+         Statement_Help_Stay_Together =  To.what.extent.do.you.agree.with.the.following.statement...sleeping.in.separate.beds.helps.us.to.stay.together.., 
+         Statement_Better_Sleep =  To.what.extent.do.you.agree.with.the.following.statement...we.sleep.better.when.we.sleep.in.separate.beds..,
+         Statement_Improved_Sex_Life = To.what.extent.do.you.agree.with.the.following.statement.ë_.our.sex.life.has.improved.as.a.result.of.sleeping.in.separate.beds..ë_, 
+         Current_Occupation =  Which.of.the.following.best.describes.your.current.occupation.,
+         Household_Income = Household.Income,  
+         Location_Census_Region = Location..Census.Region.)
+  
+
+sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
+
+head(sleeping_alone_data)
 
 ```
 
@@ -83,6 +108,8 @@ summary(sleeping_alone_data$X.2)
 # Categorical 
 # Scatter plot (or bar...)
 # Possibly boxplot 
+
+
 
 ```
 
