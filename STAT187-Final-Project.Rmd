@@ -13,12 +13,13 @@ output:
 
 ```{r setup, message = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      fig.width=10, 
-                      fig.height=10 )
+                      fig.width=12, 
+                      fig.height=10)
 
 # Load the packages
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
-               usmap, maps, statebins, viridis, leaflet)
+               usmap, maps, statebins, viridis, leaflet, cowplot)
+
 
 
 ```  
@@ -32,10 +33,7 @@ TO-DO: Before submitting, remove the questions from the intro outline and combin
 Before this survey, the most detailed data and reports on this subject were gathered and made in 2004 by the National Sleep Foundation. The data from the National Sleep Foundation provided the numbers on how many couples slept separately but did not gather data that could offer insight as to the reasons couples sleep apart and why couples sleep in separate beds. This data is interesting because it is the kind of data that could be useful to psychologists and social workers. This data can be used to examine stereotypes we have about why couples sleep separately and which age ranges of couples sleep separately along with being useful for examining why couples sleep separately.
 The data comes from a survey created in 2014 by Mona Chalabi as research for an article for Five Thirty Eight (from ABC News). 
 The survey was filled out by 1,057 American adults. 
-Here is the article that resulted from the survey: https://fivethirtyeight.com/features/dear-mona-how-many-couples-sleep-in-separate-beds/
 
-
-Assigned to: Halina Vercessi 
 
 
 **If it is a sample, from what population was it drawn, and how was the sample selected?**
@@ -57,7 +55,7 @@ Assigned to: Huaye Yang
 (REMOVE I put why the data is interesting in the start of the intro based on his suggestions)
 Something that is interesting to note when working with this data is that the responses are purely categorical, not numeric. The cleaning that we did in the data was to rename the columns because the original column names were built from the survey questions (separated by periods) and they were very long and tedious to work with. We also removed the first row as it served as almost a second title row but was being counted in the rows of data. We considered labeling the blank / no answer spaces as N/A but N/A means something in this data as it is a valid response to specific check boxes. 
 
-Assigned to: Halina Vercessi
+
 
 
 
@@ -113,6 +111,8 @@ head(sleeping_alone_data)
 
 sleeping_alone_data2 <- sleeping_alone_data %>%
   
+  filter(Relationship_Length != "", How_Often_Sep_Beds != "") %>%
+  
   group_by(Relationship_Length, How_Often_Sep_Beds) %>%
   
   summarise(count_freq = n()) %>%
@@ -140,8 +140,9 @@ rel_length_bar <- ggplot(data = sleeping_alone_data2,
                     scale_y_continuous(labels = scales::percent) +
                     scale_x_discrete(name = "Relationship Length (years)", labels = c("1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
                     facet_wrap(~How_Often_Sep_Beds) +
-                    theme(legend.position = "NA")
-rel_length_bar
+                    theme(legend.position = "NA", 
+                          title = element_text(size = 9)) +
+                    coord_flip()
 
 
 ```
@@ -150,6 +151,8 @@ rel_length_bar
 
 
 sleeping_alone_data3 <- sleeping_alone_data %>%
+  
+  filter(Age != "", How_Often_Sep_Beds != "") %>%
   
   group_by(Age, How_Often_Sep_Beds) %>%
   
@@ -176,49 +179,37 @@ prop_age_bar <- ggplot(data = sleeping_alone_data3,
                           title = "Frequency Sleeping Separately and Age (proportions)")+
   
                     scale_y_continuous(labels = scales::percent)+ 
-                    scale_x_discrete(name = "Age Range", labels = c("No Answer", "60-Up", "18-29", "30-44", "45-60")) +
+                    scale_x_discrete(name = "Age Range", labels = c("60-Up", "18-29", "30-44", "45-60")) +
                     facet_wrap(~How_Often_Sep_Beds) +
-                    theme(legend.position = "NA")
-prop_age_bar
+                    theme(legend.position = "NA", 
+                          title = element_text(size = 9)) +
+                    coord_flip()
 
 
+plot_grid(rel_length_bar, prop_age_bar, nrows = 2, ncols = 1) 
 
 ```
+
+
+
+
+
+
 ```{r 2a_graph1.2}
 
-# start_and_age_graph <-
-#   ggplot(data = sleeping_alone_data,
-#         mapping = aes(x = Age,
-#                       y = How_Often_Sep_Beds)) +
-# 
-#   geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
-# 
-#   facet_wrap(facets = ~When_First_Time_Sep_Beds) +
-# 
-#   scale_x_discrete(name = "Age Range", labels = c("No Answer", "60-Up", "18-29", "30-44", "45-60")) +
-# 
-#   scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
-# 
-#   theme(legend.position = "NA") +
-# 
-#   labs(title = "Age, Frequency Sleeping in Separate Beds, and When it Started")
-# 
-# start_and_age_graph
 
-# OLD FIGURE IDEA 2
-
-length_and_start_graph <-
-  ggplot(data = sleeping_alone_data,
-        mapping = aes(x = Relationship_Length,
+length_and_start_graph <- sleeping_alone_data %>%
+  filter(Age != "", How_Often_Sep_Beds != "", When_First_Time_Sep_Beds != "") %>%
+  ggplot(mapping = aes(x = Relationship_Length,
                       y = How_Often_Sep_Beds)) +
 
   geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
 
   facet_wrap(facets = ~When_First_Time_Sep_Beds) +
 
-  scale_x_discrete(name = "Relationship Length (years)", labels = c("NA", "1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+  scale_x_discrete(name = "Relationship Length (years)", labels = c("1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
 
-  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("No Answer", "Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
+  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
 
   theme(legend.position = "NA") +
 
@@ -295,6 +286,49 @@ The first two graphs do fit what the public might expect to see from a survey li
 
 ```
 
+
+```{r 2c_graph4.1}
+# GRAPH 5
+
+help_stay_together <- sleeping_alone_data %>% filter(Statement_Help_Stay_Together != "") %>%
+                      ggplot(mapping = aes(x = Statement_Help_Stay_Together,
+                                           fill = How_Often_Sep_Beds)) +
+                     geom_bar(position = "dodge") + 
+                     labs(x = "Helped Us Stay Together",
+                          fill = "How Often Couples Sleep Separately",
+                          title = "Frequency Sleeping Separately and Improvements") +
+                     theme(legend.position = "NA", 
+                           title = element_text(size = 9)) +
+                     coord_flip()
+
+better_sleep <- sleeping_alone_data %>% filter(Statement_Better_Sleep != "") %>%
+                      ggplot(mapping = aes(x = Statement_Better_Sleep,
+                                           fill = How_Often_Sep_Beds)) +
+                     geom_bar(position = "dodge") + 
+                     labs(x = "Helped Improve Sleep",
+                          fill = "How Often Couples Sleep Separately") +
+                     theme(legend.position = "NA" ) +
+                     coord_flip()
+
+improved_sex_life <- sleeping_alone_data %>% filter(Statement_Improved_Sex_Life != "") %>%
+                      ggplot(mapping = aes(x = Statement_Improved_Sex_Life,
+                                           fill = How_Often_Sep_Beds)) +
+                     geom_bar(position = "dodge") + 
+                     labs(x = "Helped Improve Sex Life",
+                          fill = "How Often Couples Sleep Separately") +
+                     theme(legend.position = "bottom",
+                           legend.key.size = unit(0.25, 'cm'), 
+                           legend.title = element_blank(), 
+                           legend.text = element_text(size=9)) +
+                     coord_flip()
+
+
+
+plot_grid(help_stay_together, better_sleep, improved_sex_life, ncol = 2, nrow = 2, label_size = 9) 
+
+?plot_grid
+
+```
 ### 2.3.2 Summarizing Paragraph:
 
 
