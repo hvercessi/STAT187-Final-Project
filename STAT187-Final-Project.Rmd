@@ -39,6 +39,7 @@ The survey was filled out by 1,057 American adults.
 **If it is a sample, from what population was it drawn, and how was the sample selected?**
 **Do you suspect any sampling bias?**
 **Was it an experiment or an observational study?**
+The population from which this sample was drawn includes 1,057 American adults who were married, in a domestic partnership, in civil union or cohabiting with a significant other. The sample was selected with the help of SurveyMonkey, which gathered all 1,057 responses. I do not suspect any sampling bias throughout this data because it was gathered from people who wanted to respond to the survey, and fit the criteria. This sample was an observational study because data was collected and the responses were not influenced by researcher. 
 
 Assigned to: Matthew Mccarthy
 
@@ -537,7 +538,182 @@ does not specify their gender has a large proportion of responding to "Never".
 ```{r 2c_graph4}
 # GRAPH 4
 
-# Categorical (bar or scatter plot)
+#Horizontal Bar Chart for Reason 1
+sleeping_alone_data4 <- sleeping_alone_data %>% 
+  
+  group_by(Sep_Beds_Reasons, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(Sep_Beds_Reasons, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason1 <- ggplot(data = sleeping_alone_data4,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "One of Us Snores",
+       x = "",
+       y = "") +
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 2
+sleeping_alone_data5 <- sleeping_alone_data %>% 
+  
+  group_by(X.2, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.2, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason2 <- ggplot(data = sleeping_alone_data5,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Frequent Bathroom Trips",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 3
+sleeping_alone_data6 <- sleeping_alone_data %>% 
+  
+  group_by(X.4, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.4, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason3 <- ggplot(data = sleeping_alone_data6,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "No Longer Physically Intimate",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 4
+sleeping_alone_data7 <- sleeping_alone_data %>% 
+  
+  group_by(X.5, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.5, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason4 <- ggplot(data = sleeping_alone_data7,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Different Temperature Preferences",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 5
+sleeping_alone_data8 <- sleeping_alone_data %>% 
+  
+  group_by(X.6, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.6, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason5 <- ggplot(data = sleeping_alone_data8,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Arguments / Fights",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 6
+sleeping_alone_data9 <- sleeping_alone_data %>% 
+  
+  group_by(X.8, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.8, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason6 <- ggplot(data = sleeping_alone_data9,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Not Wanting to Share Covers",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+grid.arrange(BarOftenVsReason1, BarOftenVsReason2, BarOftenVsReason3, BarOftenVsReason4, BarOftenVsReason5, BarOftenVsReason6,nrow = 2,
+             top=textGrob("Comparing How Often Couples Sleep In Different Beds With Reasons They Sleep Separately", 
+             gp=gpar (fontsize=20, fontface = "bold")))
 
 ```
 
