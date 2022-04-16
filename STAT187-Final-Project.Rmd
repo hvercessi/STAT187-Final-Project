@@ -18,9 +18,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Load the packages
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
-               usmap, maps, statebins, viridis, leaflet, cowplot)
-
-
+               usmap, maps, statebins, viridis, leaflet, cowplot, gridExtra)
 
 ```  
 
@@ -28,28 +26,24 @@ pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
 
 # 1. Introduction
 
-TO-DO: Before submitting, remove the questions from the intro outline and combine all the writing into one/two paragraphs.
-**What is the source of the data? Where and when was it created?** 
-Before this survey, the most detailed data and reports on this subject were gathered and made in 2004 by the National Sleep Foundation. The data from the National Sleep Foundation provided the numbers on how many couples slept separately but did not gather data that could offer insight as to the reasons couples sleep apart and why couples sleep in separate beds. This data is interesting because it is the kind of data that could be useful to psychologists and social workers. This data can be used to examine stereotypes we have about why couples sleep separately and which age ranges of couples sleep separately along with being useful for examining why couples sleep separately.
-The data comes from a survey created in 2014 by Mona Chalabi as research for an article for Five Thirty Eight (from ABC News). 
-The survey was filled out by 1,057 American adults. 
+Before this survey, the most detailed data and reports on this subject were 
+gathered and made in 2004 by the National Sleep Foundation. The data from the 
+National Sleep Foundation provided the numbers on how many couples slept separately 
+but did not gather data that could offer insight as to the reasons couples sleep apart 
+and why couples sleep in separate beds. This data is interesting because it is the 
+kind of data that could be useful to psychologists and social workers. This data 
+can be used to examine stereotypes we have about why couples sleep separately 
+and which age ranges of couples sleep separately along with being useful for 
+examining why couples sleep separately.The data comes from a survey created in 
+2014 by Mona Chalabi as research for an article for Five Thirty Eight (from ABC News). 
+The population from which this sample was drawn includes 1,057 American adults 
+who were married, in a domestic partnership, in civil union or cohabiting with a 
+significant other. The sample was selected with the help of SurveyMonkey, which 
+gathered all 1,057 responses.  
 
+The participants only need to check boxes that they think best describes their 
+situation. Bias can easily occur in this survey because:
 
-
-**If it is a sample, from what population was it drawn, and how was the sample selected?**
-**Do you suspect any sampling bias?**
-**Was it an experiment or an observational study?**
-
-Assigned to: Matthew Mccarthy
-
-
-**How were measurements taken, or questions asked? Do you suspect any bias in the questions or measurements?**
-It looks like the data was gathered through survey because all the variables 
-are categorical. We assume it was taken online (there are StartDate and EndDate 
-that were recorded in minutes), and participants only need to check boxes that 
-they think best describes their situation.
-
-Bias can easily occur in this survey because:
 1. It may be hard for participants to find a certain categorical box within 
 each question to best describe their situation. In this circumstances, samples
 that are considered as outlier will fall into one of the categorical values. 
@@ -66,22 +60,20 @@ randomly select the boxes instead of actually looking into the questions and
 participate. Also, we can't guarantee how reliable the data is. From the 
 recorded time (EndDate - StartDate),participants only spent around 3 minutes
 for answering 29 questions (Some of them only use less than 1 minute). There 
-might be part of the data that are not meaningful.
+might be part of the data that are not meaningful. If this survey is voluntary 
+(or maybe taken at a counselling institution,etc), participants who are willing 
+to answer these questions may already have issues or at least went through the 
+situation that were asked in the survey. This means we are not getting randomly 
+distributed samples.
 
-If this survey is voluntary (or maybe taken at a counselling institution,etc),
-participants who are willing to answer these questions may already have issues
-or at least went through the situation that were asked in the survey. This 
-means we are not getting randomly distributed samples.
-
-Assigned to: Huaye Yang 
-
-
-**Why is this data of interest to you, and why should the class find it interesting?**
-**What kind of data cleaning was necessary (rename columns, n/a in the survey = not applicable, option = add blank space placeholder/indicator**
-**Data cleaning implementation**
-
-(REMOVE I put why the data is interesting in the start of the intro based on his suggestions)
-Something that is interesting to note when working with this data is that the responses are purely categorical, not numeric. The cleaning that we did in the data was to rename the columns because the original column names were built from the survey questions (separated by periods) and they were very long and tedious to work with. We also removed the first row as it served as almost a second title row but was being counted in the rows of data. We considered labeling the blank / no answer spaces as N/A but N/A means something in this data as it is a valid response to specific check boxes. 
+The cleaning that was done on the data was to rename the columns because the 
+original column names were built from the survey questions (separated by periods) 
+and they were very long and tedious to work with. Additionally, during the building 
+of the following graphs, responses that were left blank were omitted to focus on 
+relevant responses. We also removed the first row as it served as almost a second title 
+row but was being counted in the rows of data. We considered labeling the blank / 
+no answer spaces as N/A but N/A means something in this data as it is a valid 
+response to specific check boxes. 
 
 
 
@@ -123,14 +115,12 @@ head(sleeping_alone_data)
 
 # 2. Data Visualizations
 
-**Create 4 graphs. Write a paragraph summarizing what you see, and suggesting some implications**
-
 
 ## 2.1 Length of Relationship and Age (Graph 1):  
 
 
-**Relate the length of relationships, bed status (separate beds vs same bed), and age.**
-
+**The following figures aim to elate the length of relationships, bed status (separate beds vs same bed), and age.**
+**Additionally, the start of sleeping separately in looked at.**
 **Is it more likely that couples who have been together longer will sleep in separate beds more often?**
 
 
@@ -220,11 +210,10 @@ plot_grid(rel_length_bar, prop_age_bar, nrows = 2, ncols = 1)
 
 
 
-
-
-
 ```{r 2a_graph1.2}
 
+# Thinking about omitting this graph but we think it would be interesting to still examine the starting 
+# point of sleeping separately within the relationship span. 
 
 length_and_start_graph <- sleeping_alone_data %>%
   filter(Age != "", How_Often_Sep_Beds != "", When_First_Time_Sep_Beds != "") %>%
@@ -249,13 +238,36 @@ length_and_start_graph
 
 
 ### 2.1.2 Summarizing Paragraph:
-From the first two graphs, it is clear that the majority of couples who took the survey do not sleep separately. From the first graph, around 18% of couples who have been
-in a relationship for 16-20 years and more than 20 years do sleep in separate beds. These percentages are on the higher end for proportions of couples that have slept or do sleep separately. This aspect of the data fits our society's stereotyping that couples who have been together longer are more likely to sleep separately. Another notable percentage is that almost 20% of couples who have been together for less than a year reported sleeping separately once a month or less. 
 
-From the last graph, which aims to show patterns in when sleeping separately starts, it appears that the majority of couples who do sleep in separate beds every night started sleeping separately earlier on in the relationship (within 1-5 years of the relationship) as can be seen in the last figure (bottom left pink), but also note that the relationship lengths that follow this pattern are mainly under 20 years in length and greater than 1 year. 
-Another interesting pattern that can be noted is that for those who have been in a very long-term relationship (greater than 20 years), the majority of those couples sleeping in separate beds every night or a few times per week started this sleeping situation within 16 to 20 year or more than 20 years into their relationship. So, the couples with long relationships actually did not sleep separately until many years together had passed. 
+From the first two graphs, it is clear that the majority of couples who took the 
+survey do not sleep separately. From the first graph, around 18% of couples who
+have been in a relationship for 16-20 years and more than 20 years do sleep in 
+separate beds. These percentages are on the higher end for proportions of couples 
+that have slept or do sleep separately. This aspect of the data fits our society's 
+stereotyping that couples who have been together longer are more likely to sleep 
+separately. Another notable percentage is that almost 20% of couples who have been 
+together for less than a year reported sleeping separately once a month or less. 
 
-The first two graphs do fit what the public might expect to see from a survey like this, however, it does not give any indication as to the reasons couples who have been together longer might be sleeping separately. The following sections and figures will aim to further examine this aspect of the population sample. More specifically, could occupation and income (which are often tied to how busy or occupied a person might be in their daily activities) be related to couple sleeping separately? Additionally, what are the reasons for certain categories of couples (older, younger, etc) sleeping separately and have they noticed changes in their relationship from sleeping separately? 
+From the last graph, which aims to show patterns in when sleeping separately starts, 
+it appears that the majority of couples who do sleep in separate beds every night 
+started sleeping separately earlier on in the relationship (within 1-5 years of the 
+relationship) as can be seen in the last figure (bottom left pink), but also note 
+that the relationship lengths that follow this pattern are mainly under 20 years 
+in length and greater than 1 year. Another interesting pattern that can be noted 
+is that for those who have been in a very long-term relationship (greater than 20 
+years), the majority of those couples sleeping in separate beds every night or a 
+few times per week started this sleeping situation within 16 to 20 year or more
+than 20 years into their relationship. So, the couples with long relationships 
+actually did not sleep separately until many years together had passed. 
+
+The first two graphs do fit what the public might expect to see from a survey like 
+this, however, it does not give any indication as to the reasons couples who have 
+been together longer might be sleeping separately. The following sections and figures 
+will aim to further examine this aspect of the population sample. More specifically,
+could occupation and income (which are often tied to how busy or occupied a person 
+might be in their daily activities) be related to couple sleeping separately? 
+Additionally, what are the reasons for certain categories of couples (older, younger, etc) 
+sleeping separately and have they noticed changes in their relationship from sleeping separately? 
 
 
 
@@ -277,11 +289,12 @@ The first two graphs do fit what the public might expect to see from a survey li
 # change the default theme below:
 theme_set(theme_bw())
 # set levels in order to give a better visisualization in color
-summary(sleeping_alone_data$How_Often_Sep_Beds)
+#summary(sleeping_alone_data$How_Often_Sep_Beds)
+
 rank<-as.factor(sleeping_alone_data$How_Often_Sep_Beds)
-sleeping_alone_data <- sleeping_alone_data %>%
+sleeping_alone_data4 <- sleeping_alone_data %>%
   mutate(How_Often_Sep_Beds = factor(rank, ordered = TRUE, 
-                                     evels = c("Never",
+                                     levels = c("Never",
                                                "Once a year or less",
                                                "Once a month or less",
                                                "A few times per month",
@@ -289,9 +302,9 @@ sleeping_alone_data <- sleeping_alone_data %>%
                                                "Every night")))
 # Relate occupation to bed status (and how often they sleep)
 # Overall plot
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   group_by(Current_Occupation)%>%
-  ggplot(data = sleeping_alone_data,
+  ggplot(data = sleeping_alone_data4,
        mapping = aes(x = Current_Occupation,
                      fill = How_Often_Sep_Beds)) +
   geom_bar(position="dodge")+
@@ -306,12 +319,13 @@ sleeping_alone_data %>%
         legend.title = element_text(size= 8),
         axis.title.x = element_blank(),
         axis.title.y = element_blank())
+
 # summary() to see each category name and ready to draw plots for each of 
 # the categories. facet_wrap or facet_grid provide too little information
-summary(sleeping_alone_data$How_Often_Sep_Beds)
+#summary(sleeping_alone_data$How_Often_Sep_Beds)
 #### for each bed status below:
 # Never
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds) %>%
   filter(How_Often_Sep_Beds == "Never") %>%
   ggplot(aes(y = Current_Occupation,
@@ -321,7 +335,7 @@ sleeping_alone_data %>%
         axis.title.y = element_blank())
   
 # Once a year or less 
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds) %>%
   filter(How_Often_Sep_Beds == "Once a year or less") %>%
   ggplot(aes(y = Current_Occupation,
@@ -330,7 +344,7 @@ sleeping_alone_data %>%
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # Once a month or less
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds) %>%
   filter(How_Often_Sep_Beds == "Once a month or less") %>%
   ggplot(aes(y = Current_Occupation,
@@ -339,7 +353,7 @@ sleeping_alone_data %>%
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # A few times per month 
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds) %>%
   filter(How_Often_Sep_Beds == "A few times per month") %>%
   ggplot(aes(y = Current_Occupation,
@@ -348,7 +362,7 @@ sleeping_alone_data %>%
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # A few times per week
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds) %>%
   filter(How_Often_Sep_Beds == "A few times per week") %>%
   ggplot(aes(y = Current_Occupation,
@@ -357,7 +371,7 @@ sleeping_alone_data %>%
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # Every night
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds) %>%
   filter(How_Often_Sep_Beds == "Every night") %>%
   ggplot(aes(y = Current_Occupation,
@@ -367,7 +381,7 @@ sleeping_alone_data %>%
         axis.title.y = element_blank())
 ## for people who have further response instead of checking boxes
 ## (choose to plot those who answered "retired" or "Retired)
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   filter(X.12 == "retired" | X.12 == "Retired")%>%
   mutate(X.12 ="retired") %>%
   
@@ -400,7 +414,7 @@ separately is almost twice as large as those who sleeping separately every night
 ```{r 2b_graph3}
 # GRAPH 3
 
-ggplot(data = sleeping_alone_data,
+ggplot(data = sleeping_alone_data4,
        mapping = aes(x = Current_Occupation,
                      fill = How_Often_Sep_Beds)) +
   geom_bar()+
@@ -419,7 +433,7 @@ ggplot(data = sleeping_alone_data,
   facet_grid(~Gender)
 ## for each bed status below:
 # Never
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
   filter(How_Often_Sep_Beds == "Never") %>%
   ggplot(aes(x= Current_Occupation,
@@ -435,7 +449,7 @@ sleeping_alone_data %>%
   facet_grid(~Gender)
   
 # Once a year or less 
-sleeping_alone_data %>%
+sleeping_alone_data4 %>%
   select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
   filter(How_Often_Sep_Beds == "Once a year or less") %>%
   ggplot(aes(x= Current_Occupation,
@@ -450,7 +464,7 @@ sleeping_alone_data %>%
         axis.title.y = element_blank())+
   facet_grid(~Gender)
 # Once a month or less
-sleeping_alone_data %>%
+sleeping_alone_data4 %>% filter(Gender != "") %>%
   select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
   filter(How_Often_Sep_Beds == "Once a month or less") %>%
   ggplot(aes(x= Current_Occupation,
@@ -465,7 +479,7 @@ sleeping_alone_data %>%
         axis.title.y = element_blank())+
   facet_grid(~Gender)
 # A few times per month 
-sleeping_alone_data %>%
+sleeping_alone_data4 %>% filter(Gender != "") %>%
   select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
   filter(How_Often_Sep_Beds == "A few times per month") %>%
   ggplot(aes(x= Current_Occupation,
@@ -480,7 +494,7 @@ sleeping_alone_data %>%
         axis.title.y = element_blank())+
   facet_grid(~Gender)
 # A few times per week
-sleeping_alone_data %>%
+sleeping_alone_data4 %>% filter(Gender != "") %>%
   select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
   filter(How_Often_Sep_Beds == "A few times per week") %>%
   ggplot(aes(x= Current_Occupation,
@@ -495,7 +509,7 @@ sleeping_alone_data %>%
         axis.title.y = element_blank())+
   facet_grid(~Gender)
 # Every night
-sleeping_alone_data %>%
+sleeping_alone_data4 %>% filter(Gender != "") %>%
   select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
   filter(How_Often_Sep_Beds == "Every night") %>%
   ggplot(aes(x= Current_Occupation,
@@ -537,7 +551,182 @@ does not specify their gender has a large proportion of responding to "Never".
 ```{r 2c_graph4}
 # GRAPH 4
 
-# Categorical (bar or scatter plot)
+#Horizontal Bar Chart for Reason 1
+sleeping_alone_data5 <- sleeping_alone_data %>% 
+  
+  group_by(Sep_Beds_Reasons, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(Sep_Beds_Reasons, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason1 <- ggplot(data = sleeping_alone_data5,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "One of Us Snores",
+       x = "",
+       y = "") +
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 2
+sleeping_alone_data6 <- sleeping_alone_data %>% 
+  
+  group_by(X.2, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.2, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason2 <- ggplot(data = sleeping_alone_data6,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Frequent Bathroom Trips",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 3
+sleeping_alone_data7 <- sleeping_alone_data %>% 
+  
+  group_by(X.4, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.4, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason3 <- ggplot(data = sleeping_alone_data7,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "No Longer Physically Intimate",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 4
+sleeping_alone_data8 <- sleeping_alone_data %>% 
+  
+  group_by(X.5, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.5, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason4 <- ggplot(data = sleeping_alone_data8,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Different Temperature Preferences",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 5
+sleeping_alone_data9 <- sleeping_alone_data %>% 
+  
+  group_by(X.6, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.6, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason5 <- ggplot(data = sleeping_alone_data9,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Arguments / Fights",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 15, hjust = 0.5))
+#Horizontal Bar Chart for Reason 6
+sleeping_alone_data10 <- sleeping_alone_data %>% 
+  
+  group_by(X.8, How_Often_Sep_Beds) %>% 
+  
+  summarise(freq = n()) %>% 
+  
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+  
+  select(X.8, How_Often_Sep_Beds, Prop) %>% 
+  
+  slice(-c(1)) %>% 
+  
+  ungroup()
+BarOftenVsReason6 <- ggplot(data = sleeping_alone_data10,
+                               mapping = aes(y = Prop,
+                                             x = How_Often_Sep_Beds,
+                                             fill = How_Often_Sep_Beds)) +
+  
+  geom_bar(stat = "identity",
+           show.legend = F) + 
+  coord_flip() + 
+  labs(title = "Not Wanting to Share Covers",
+       x = "",
+       y = "") +
+  
+  scale_y_continuous(labels = scales::percent) +
+  
+  theme(plot.title = element_text(size = 8, hjust = 0.5))
+grid.arrange(BarOftenVsReason1, BarOftenVsReason2, BarOftenVsReason3, BarOftenVsReason4, BarOftenVsReason5, BarOftenVsReason6,nrow = 2,
+             top=textGrob("Comparing How Often Couples Sleep In Different Beds With Reasons They Sleep Separately", 
+             gp=gpar (fontsize=10, fontface = "bold")))
 
 ```
 
@@ -586,16 +775,63 @@ plot_grid(help_stay_together, better_sleep, improved_sex_life, ncol = 2, nrow = 
 ```
 ### 2.3.2 Summarizing Paragraph:
 
+These graphs compare how often couples sleep in different beds with some reasons 
+why they sleep separately. The reason that the percentages add up to over 100% is 
+because this part of the survey involved selecting all that applied. One specific 
+pattern that I notice is that sleeping separately "a few times per month" is 
+clearly the least common response among all reasons. Most of the reasons have the 
+highest percentage of sleeping separately "every night", except for arguments and 
+fights which has by far the lowest percentage. This makes sense to think about
+because couples do not usually have arguments or fights every night. They generally 
+happen on occasion, which is why the arguments/fights graph has the highest percentage 
+of sleeping separately "once a year or less" and "once a month or less". Besides 
+arguments and fights, the graphs have similar distributions.
+
+In terms of imrpovements, majority of couples who sleep in separate beds every night 
+who did not anser neutrally, reported strongly agreeing with the statement "it helped save our relationship". 
+Most notably, the vast majority of couples sleeping separately every night stated that sleeping 
+separately improved their sleep. When it comes to improvements in sex life, the results are 
+less descriptive and there seems to be less unanimous improvements in this category. 
+Overall, the reasons that couples chose to sleep apart every night were practical sleep reasons
+relating to sleeping habits such as temperature differences, middle-of-the-night disturbances, 
+snoring, and cover-sharing. 
+
 
 ***
 
 
-**NOTE: put conclusion section together at end after summary paragraphs are written (draw from those)**
 # 3 Conclusions:  
-**Write some overall conclusions – an overall summary of what you learned from your visualizations and analysis. Summarize in one paragraph**
+
+This data does illustrate a tendancy toward stereotypical patterns in our society 
+regarding age / relationship length and sleeping situation. That being that couples 
+who are older (or have one partner who is older) are more likely to sleep in 
+separate beds. Additionally couples who have been together for at least a decade are
+much more likely to sleep in separate beds. That being said, the purpose of this data was
+to help shed light on the factors involved in sleeping separately and allow us to examine 
+the reasons why couples choose ot sleep separately. It seems that the reasons are highly
+related to comfort and to getting the best quality of sleep. The stereotype of age / relationship
+length and separate sleeping usually has to do with stereotypes about "romance fading away" or
+things of the kind. However, the most popular reasons in general are far more specific and practical.
+It is understandable that couples who have been together longer (say 16-20) years may 
+be at the point where they can comfortably communicate that it would be best to have separate beds. 
 
 # 4 Limitations / Recommendations: 
-**Write a paragraph describing some of the limitations that are inherent in your study. Also discuss ideas for future research that might build on the work you did in this project. Summarize in one paragraph.**
+
+There are several limitations to this data. The aspect of gender identity is 
+neglected in this survey, only male and female options are given and there is no
+indication of which gender identity the partner or the person taking the survey is. 
+It would be an interesting aspect to consider the patterns among different types of 
+couples in the US (in terms of gender and sexual identity and how that varies depending on 
+age/generation).
+
+
+
+
+
+
+***
+
+
 
 
 
