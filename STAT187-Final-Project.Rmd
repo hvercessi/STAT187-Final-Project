@@ -44,6 +44,34 @@ Assigned to: Matthew Mccarthy
 
 
 **How were measurements taken, or questions asked? Do you suspect any bias in the questions or measurements?**
+It looks like the data was gathered through survey because all the variables 
+are categorical. We assume it was taken online (there are StartDate and EndDate 
+that were recorded in minutes), and participants only need to check boxes that 
+they think best describes their situation.
+
+Bias can easily occur in this survey because:
+1. It may be hard for participants to find a certain categorical box within 
+each question to best describe their situation. In this circumstances, samples
+that are considered as outlier will fall into one of the categorical values. 
+Also, we are only able to do a rough analysis based on designed categorical 
+values. It can't provide detailed information or quantitative analysis for 
+accurate numerical values. 
+
+2. Participants may overly/underly describe their situation due to the form of 
+survey. What we have in dataset is subjective, not objective.
+
+3. We are not sure whether this survey is voluntary. If this is forced or hard
+for participants to refuse, the data can be messed because participants may 
+randomly select the boxes instead of actually looking into the questions and 
+participate. Also, we can't guarantee how reliable the data is. From the 
+recorded time (EndDate - StartDate),participants only spent around 3 minutes
+for answering 29 questions (Some of them only use less than 1 minute). There 
+might be part of the data that are not meaningful.
+
+If this survey is voluntary (or maybe taken at a counselling institution,etc),
+participants who are willing to answer these questions may already have issues
+or at least went through the situation that were asked in the survey. This 
+means we are not getting randomly distributed samples.
 
 Assigned to: Huaye Yang 
 
@@ -234,7 +262,7 @@ The first two graphs do fit what the public might expect to see from a survey li
 ***
 
 
-## 2.2 Occupation and Income (Graph 2 and Graph 3) --> Huaye
+## 2.2 Occupation and Income (Graph 2 and Graph 3) 
 
 **Relate occupation, income, and bed status with how often they sleep separately.**
 
@@ -246,12 +274,124 @@ The first two graphs do fit what the public might expect to see from a survey li
 ```{r 2b_graph2}
 # GRAPH 2
 
+# change the default theme below:
+theme_set(theme_bw())
+# set levels in order to give a better visisualization in color
+summary(sleeping_alone_data$How_Often_Sep_Beds)
+rank<-as.factor(sleeping_alone_data$How_Often_Sep_Beds)
+sleeping_alone_data <- sleeping_alone_data %>%
+  mutate(How_Often_Sep_Beds = factor(rank, ordered = TRUE, 
+                                     evels = c("Never",
+                                               "Once a year or less",
+                                               "Once a month or less",
+                                               "A few times per month",
+                                               "A few times per week",
+                                               "Every night")))
 # Relate occupation to bed status (and how often they sleep)
+# Overall plot
+sleeping_alone_data %>%
+  group_by(Current_Occupation)%>%
+  ggplot(data = sleeping_alone_data,
+       mapping = aes(x = Current_Occupation,
+                     fill = How_Often_Sep_Beds)) +
+  geom_bar(position="dodge")+
+  
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        legend.position = "top",
+        legend.text = element_text(size = 7),
+        legend.key.size = unit(0.25,'cm'),
+        legend.title = element_text(size= 8),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+# summary() to see each category name and ready to draw plots for each of 
+# the categories. facet_wrap or facet_grid provide too little information
+summary(sleeping_alone_data$How_Often_Sep_Beds)
+#### for each bed status below:
+# Never
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds) %>%
+  filter(How_Often_Sep_Beds == "Never") %>%
+  ggplot(aes(y = Current_Occupation,
+             color = How_Often_Sep_Beds))+
+  geom_bar(fill = "purple4")+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+  
+# Once a year or less 
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds) %>%
+  filter(How_Often_Sep_Beds == "Once a year or less") %>%
+  ggplot(aes(y = Current_Occupation,
+             color = How_Often_Sep_Beds))+
+  geom_bar(fill = "darkslateblue")+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+# Once a month or less
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds) %>%
+  filter(How_Often_Sep_Beds == "Once a month or less") %>%
+  ggplot(aes(y = Current_Occupation,
+             color = How_Often_Sep_Beds))+
+  geom_bar(fill = "cadetblue4")+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+# A few times per month 
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds) %>%
+  filter(How_Often_Sep_Beds == "A few times per month") %>%
+  ggplot(aes(y = Current_Occupation,
+             color = How_Often_Sep_Beds))+
+  geom_bar(fill = "lightseagreen")+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+# A few times per week
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds) %>%
+  filter(How_Often_Sep_Beds == "A few times per week") %>%
+  ggplot(aes(y = Current_Occupation,
+             color = How_Often_Sep_Beds))+
+  geom_bar(fill = "palegreen3")+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+# Every night
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds) %>%
+  filter(How_Often_Sep_Beds == "Every night") %>%
+  ggplot(aes(y = Current_Occupation,
+              color= How_Often_Sep_Beds))+
+  geom_bar(fill = "khaki1")+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+## for people who have further response instead of checking boxes
+## (choose to plot those who answered "retired" or "Retired)
+sleeping_alone_data %>%
+  filter(X.12 == "retired" | X.12 == "Retired")%>%
+  mutate(X.12 ="retired") %>%
+  
+  ggplot(aes(x = X.12, fill= How_Often_Sep_Beds)) +
+  
+  geom_bar(color="white",position = "dodge")+
+  
+  theme(axis.text.x = element_text(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank()) 
+
 
 ```
 
 ### 2.2.2 Summarizing Paragraph:
 
+People who are in Education, Training, and Library Occupations seems to have 
+more response of "Never" sleeping separately. Regardless of the occupation,
+The number of people who sleep separately is bigger than other frequencies.
+
+For people who checked the box of "Other(please specify)", we select retired 
+samples to draw a bar graph. Distribution of people who retired have heavy tails
+on both side(Never & Every night), but the number of people who never sleeping 
+separately is almost twice as large as those who sleeping separately every night.
 
 ***
 
@@ -260,12 +400,127 @@ The first two graphs do fit what the public might expect to see from a survey li
 ```{r 2b_graph3}
 # GRAPH 3
 
-# Second graph could build on first (add income as a factor)
+ggplot(data = sleeping_alone_data,
+       mapping = aes(x = Current_Occupation,
+                     fill = How_Often_Sep_Beds)) +
+  geom_bar()+
+  scale_fill_viridis_d(option = "cividis")+
+  
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        legend.position = "top",
+        legend.text = element_text(size = 7),
+        legend.key.size = unit(0.25,'cm'),
+        legend.title = element_text(size= 8),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+## for each bed status below:
+# Never
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
+  filter(How_Often_Sep_Beds == "Never") %>%
+  ggplot(aes(x= Current_Occupation,
+             color = How_Often_Sep_Beds,
+             fill = Gender))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+  
+# Once a year or less 
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
+  filter(How_Often_Sep_Beds == "Once a year or less") %>%
+  ggplot(aes(x= Current_Occupation,
+             color = How_Often_Sep_Beds,
+             fill = Gender))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+# Once a month or less
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
+  filter(How_Often_Sep_Beds == "Once a month or less") %>%
+  ggplot(aes(x= Current_Occupation,
+             color = How_Often_Sep_Beds,
+             fill = Gender))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+# A few times per month 
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
+  filter(How_Often_Sep_Beds == "A few times per month") %>%
+  ggplot(aes(x= Current_Occupation,
+             color = How_Often_Sep_Beds,
+             fill = Gender))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+# A few times per week
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
+  filter(How_Often_Sep_Beds == "A few times per week") %>%
+  ggplot(aes(x= Current_Occupation,
+             color = How_Often_Sep_Beds,
+             fill = Gender))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+# Every night
+sleeping_alone_data %>%
+  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
+  filter(How_Often_Sep_Beds == "Every night") %>%
+  ggplot(aes(x= Current_Occupation,
+             color = How_Often_Sep_Beds,
+             fill = Gender))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1,
+                                   vjust = 0.25,
+                                   size = 7),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())+
+  facet_grid(~Gender)
+
 
 ```
 
 ### 2.2.4 Summarizing Paragraph:
 
+When we add gender as another consideration of our plots, it seems that there 
+are more male participants for this study. For each frequencies of how often 
+they sleep separately, there is a significant difference in number for the 
+response of Never & Every night(males more than females). For other response 
+of this question, the number in difference is not significant. People who
+does not specify their gender has a large proportion of responding to "Never".
 
 ***
 
