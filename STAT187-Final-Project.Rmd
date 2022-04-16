@@ -20,8 +20,6 @@ knitr::opts_chunk$set(echo = TRUE,
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
                usmap, maps, statebins, viridis, leaflet, cowplot, gridExtra)
 
-
-
 ```  
 
 ***
