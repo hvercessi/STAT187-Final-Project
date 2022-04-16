@@ -13,12 +13,13 @@ output:
 
 ```{r setup, message = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      fig.width=8, 
-                      fig.height=5) 
+                      fig.width=12, 
+                      fig.height=10)
 
 # Load the packages
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
-               usmap, maps, statebins, viridis, leaflet)
+               usmap, maps, statebins, viridis, leaflet, cowplot)
+
 
 
 ```  
@@ -27,11 +28,12 @@ pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
 
 # 1. Introduction
 
+TO-DO: Before submitting, remove the questions from the intro outline and combine all the writing into one/two paragraphs.
+**What is the source of the data? Where and when was it created?** 
+Before this survey, the most detailed data and reports on this subject were gathered and made in 2004 by the National Sleep Foundation. The data from the National Sleep Foundation provided the numbers on how many couples slept separately but did not gather data that could offer insight as to the reasons couples sleep apart and why couples sleep in separate beds. This data is interesting because it is the kind of data that could be useful to psychologists and social workers. This data can be used to examine stereotypes we have about why couples sleep separately and which age ranges of couples sleep separately along with being useful for examining why couples sleep separately.
+The data comes from a survey created in 2014 by Mona Chalabi as research for an article for Five Thirty Eight (from ABC News). 
+The survey was filled out by 1,057 American adults. 
 
-**What is the source of the data?**  
-**Where and when was it created?**
-
-Assigned to: Halina Vercessi 
 
 
 **If it is a sample, from what population was it drawn, and how was the sample selected?**
@@ -50,8 +52,10 @@ Assigned to: Huaye Yang
 **What kind of data cleaning was necessary (rename columns, n/a in the survey = not applicable, option = add blank space placeholder/indicator**
 **Data cleaning implementation**
 
+(REMOVE I put why the data is interesting in the start of the intro based on his suggestions)
+Something that is interesting to note when working with this data is that the responses are purely categorical, not numeric. The cleaning that we did in the data was to rename the columns because the original column names were built from the survey questions (separated by periods) and they were very long and tedious to work with. We also removed the first row as it served as almost a second title row but was being counted in the rows of data. We considered labeling the blank / no answer spaces as N/A but N/A means something in this data as it is a valid response to specific check boxes. 
 
-Assigned to: Halina Vercessi
+
 
 
 
@@ -61,7 +65,7 @@ Assigned to: Halina Vercessi
 sleeping_alone_data1 <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
 
 # Take a look at the relationship status column, 7 categories
-summary(sleeping_alone_data1)
+#summary(sleeping_alone_data1)
 
 # Rename columns to simpler names based on survey questions
 sleeping_alone_data <- sleeping_alone_data1 %>%
@@ -104,16 +108,127 @@ head(sleeping_alone_data)
 
 ### 2.1.1 Graph 1 --> Halina 
 ```{r 2a_graph1}
-# GRAPH 1
-# Categorical 
-# Scatter plot (or bar...)
-# Possibly boxplot 
 
+sleeping_alone_data2 <- sleeping_alone_data %>%
+  
+  filter(Relationship_Length != "", How_Often_Sep_Beds != "") %>%
+  
+  group_by(Relationship_Length, How_Often_Sep_Beds) %>%
+  
+  summarise(count_freq = n()) %>%
+  
+  mutate(Proportion = round(count_freq/sum(count_freq), digits = 5)) %>%
+  
+  select(Relationship_Length, How_Often_Sep_Beds, Proportion) %>% 
+  
+  slice(-c(1)) %>%
+  
+  ungroup()
+
+
+rel_length_bar <- ggplot(data = sleeping_alone_data2,
+                            mapping = aes(x = Relationship_Length,
+                                          y = Proportion, 
+                                          fill = How_Often_Sep_Beds)) +
+  
+                     geom_col(position = "dodge") + 
+  
+                     labs(x = "Relationship Length",
+                          fill = "How Often Couples Sleep Separately", 
+                          title = "Frequency Sleeping Separately and Relationship Length (proportions)")+
+  
+                    scale_y_continuous(labels = scales::percent) +
+                    scale_x_discrete(name = "Relationship Length (years)", labels = c("1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+                    facet_wrap(~How_Often_Sep_Beds) +
+                    theme(legend.position = "NA", 
+                          title = element_text(size = 9)) +
+                    coord_flip()
 
 
 ```
 
+```{r 2a_graph1.1}
+
+
+sleeping_alone_data3 <- sleeping_alone_data %>%
+  
+  filter(Age != "", How_Often_Sep_Beds != "") %>%
+  
+  group_by(Age, How_Often_Sep_Beds) %>%
+  
+  summarise(count_freq = n()) %>%
+  
+  mutate(Proportion = round(count_freq/sum(count_freq), digits = 5)) %>%
+  
+  select(Age, How_Often_Sep_Beds, Proportion) %>% 
+  
+  slice(-c(1)) %>%
+  
+  ungroup()
+
+
+prop_age_bar <- ggplot(data = sleeping_alone_data3,
+                            mapping = aes(x = Age,
+                                          y = Proportion, 
+                                          fill = How_Often_Sep_Beds)) +
+  
+                     geom_col(position = "dodge") + 
+  
+                     labs(x = "Age",
+                          fill = "How Often Couples Sleep Separately", 
+                          title = "Frequency Sleeping Separately and Age (proportions)")+
+  
+                    scale_y_continuous(labels = scales::percent)+ 
+                    scale_x_discrete(name = "Age Range", labels = c("60-Up", "18-29", "30-44", "45-60")) +
+                    facet_wrap(~How_Often_Sep_Beds) +
+                    theme(legend.position = "NA", 
+                          title = element_text(size = 9)) +
+                    coord_flip()
+
+
+plot_grid(rel_length_bar, prop_age_bar, nrows = 2, ncols = 1) 
+
+```
+
+
+
+
+
+
+```{r 2a_graph1.2}
+
+
+length_and_start_graph <- sleeping_alone_data %>%
+  filter(Age != "", How_Often_Sep_Beds != "", When_First_Time_Sep_Beds != "") %>%
+  ggplot(mapping = aes(x = Relationship_Length,
+                      y = How_Often_Sep_Beds)) +
+
+  geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
+
+  facet_wrap(facets = ~When_First_Time_Sep_Beds) +
+
+  scale_x_discrete(name = "Relationship Length (years)", labels = c("1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
+
+  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
+
+  theme(legend.position = "NA") +
+
+  labs(title = "Relationship Length, Frequency Sleeping in Separate Beds, and When it Started")
+
+length_and_start_graph
+
+```
+
+
 ### 2.1.2 Summarizing Paragraph:
+From the first two graphs, it is clear that the majority of couples who took the survey do not sleep separately. From the first graph, around 18% of couples who have been
+in a relationship for 16-20 years and more than 20 years do sleep in separate beds. These percentages are on the higher end for proportions of couples that have slept or do sleep separately. This aspect of the data fits our society's stereotyping that couples who have been together longer are more likely to sleep separately. Another notable percentage is that almost 20% of couples who have been together for less than a year reported sleeping separately once a month or less. 
+
+From the last graph, which aims to show patterns in when sleeping separately starts, it appears that the majority of couples who do sleep in separate beds every night started sleeping separately earlier on in the relationship (within 1-5 years of the relationship) as can be seen in the last figure (bottom left pink), but also note that the relationship lengths that follow this pattern are mainly under 20 years in length and greater than 1 year. 
+Another interesting pattern that can be noted is that for those who have been in a very long-term relationship (greater than 20 years), the majority of those couples sleeping in separate beds every night or a few times per week started this sleeping situation within 16 to 20 year or more than 20 years into their relationship. So, the couples with long relationships actually did not sleep separately until many years together had passed. 
+
+The first two graphs do fit what the public might expect to see from a survey like this, however, it does not give any indication as to the reasons couples who have been together longer might be sleeping separately. The following sections and figures will aim to further examine this aspect of the population sample. More specifically, could occupation and income (which are often tied to how busy or occupied a person might be in their daily activities) be related to couple sleeping separately? Additionally, what are the reasons for certain categories of couples (older, younger, etc) sleeping separately and have they noticed changes in their relationship from sleeping separately? 
+
 
 
 ***
@@ -171,6 +286,49 @@ head(sleeping_alone_data)
 
 ```
 
+
+```{r 2c_graph4.1}
+# GRAPH 5
+
+help_stay_together <- sleeping_alone_data %>% filter(Statement_Help_Stay_Together != "") %>%
+                      ggplot(mapping = aes(x = Statement_Help_Stay_Together,
+                                           fill = How_Often_Sep_Beds)) +
+                     geom_bar(position = "dodge") + 
+                     labs(x = "Helped Us Stay Together",
+                          fill = "How Often Couples Sleep Separately",
+                          title = "Frequency Sleeping Separately and Improvements") +
+                     theme(legend.position = "NA", 
+                           title = element_text(size = 9)) +
+                     coord_flip()
+
+better_sleep <- sleeping_alone_data %>% filter(Statement_Better_Sleep != "") %>%
+                      ggplot(mapping = aes(x = Statement_Better_Sleep,
+                                           fill = How_Often_Sep_Beds)) +
+                     geom_bar(position = "dodge") + 
+                     labs(x = "Helped Improve Sleep",
+                          fill = "How Often Couples Sleep Separately") +
+                     theme(legend.position = "NA" ) +
+                     coord_flip()
+
+improved_sex_life <- sleeping_alone_data %>% filter(Statement_Improved_Sex_Life != "") %>%
+                      ggplot(mapping = aes(x = Statement_Improved_Sex_Life,
+                                           fill = How_Often_Sep_Beds)) +
+                     geom_bar(position = "dodge") + 
+                     labs(x = "Helped Improve Sex Life",
+                          fill = "How Often Couples Sleep Separately") +
+                     theme(legend.position = "bottom",
+                           legend.key.size = unit(0.25, 'cm'), 
+                           legend.title = element_blank(), 
+                           legend.text = element_text(size=9)) +
+                     coord_flip()
+
+
+
+plot_grid(help_stay_together, better_sleep, improved_sex_life, ncol = 2, nrow = 2, label_size = 9) 
+
+?plot_grid
+
+```
 ### 2.3.2 Summarizing Paragraph:
 
 
