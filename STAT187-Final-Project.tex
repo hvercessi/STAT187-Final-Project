@@ -1,0 +1,1249 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{Stat/CS 187: Final Project}
+\author{Huaye Yang, Halina Vercessi, and Matthew Mccarthy}
+\date{Spring 2022}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Stat/CS 187: Final Project},
+  pdfauthor={Huaye Yang, Halina Vercessi, and Matthew Mccarthy},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =} \ConstantTok{TRUE}\NormalTok{,}
+                      \AttributeTok{fig.width=}\DecValTok{12}\NormalTok{, }
+                      \AttributeTok{fig.height=}\DecValTok{10}\NormalTok{)}
+
+\CommentTok{\# Load the packages}
+\NormalTok{pacman}\SpecialCharTok{::}\FunctionTok{p\_load}\NormalTok{(gapminder, tidyverse, skimr, socviz, grid, stringr,}
+\NormalTok{               usmap, maps, statebins, viridis, leaflet, cowplot, gridExtra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\section{1. Introduction}\label{introduction}}
+
+Before this survey, the most detailed data and reports on this subject
+were gathered and made in 2004 by the National Sleep Foundation. The
+data from the National Sleep Foundation provided the numbers on how many
+couples slept separately but did not gather data that could offer
+insight as to the reasons couples sleep apart and why couples sleep in
+separate beds. This data is interesting because it is the kind of data
+that could be useful to psychologists and social workers. This data can
+be used to examine stereotypes we have about why couples sleep
+separately and which age ranges of couples sleep separately along with
+being useful for examining why couples sleep separately.The data comes
+from a survey created in 2014 by Mona Chalabi as research for an article
+for Five Thirty Eight (from ABC News). The population from which this
+sample was drawn includes 1,057 American adults who were married, in a
+domestic partnership, in civil union or cohabiting with a significant
+other. The sample was selected with the help of SurveyMonkey, which
+gathered all 1,057 responses.
+
+The participants only need to check boxes that they think best describes
+their situation. Bias can easily occur in this survey because:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  It may be hard for participants to find a certain categorical box
+  within each question to best describe their situation. In this
+  circumstances, samples that are considered as outlier will fall into
+  one of the categorical values. Also, we are only able to do a rough
+  analysis based on designed categorical values. It can't provide
+  detailed information or quantitative analysis for accurate numerical
+  values.
+\item
+  Participants may overly/underly describe their situation due to the
+  form of survey. What we have in dataset is subjective, not objective.
+\item
+  We are not sure whether this survey is voluntary. If this is forced or
+  hard for participants to refuse, the data can be messed because
+  participants may randomly select the boxes instead of actually looking
+  into the questions and participate. Also, we can't guarantee how
+  reliable the data is. From the recorded time (EndDate -
+  StartDate),participants only spent around 3 minutes for answering 29
+  questions (Some of them only use less than 1 minute). There might be
+  part of the data that are not meaningful. If this survey is voluntary
+  (or maybe taken at a counselling institution,etc), participants who
+  are willing to answer these questions may already have issues or at
+  least went through the situation that were asked in the survey. This
+  means we are not getting randomly distributed samples.
+\end{enumerate}
+
+The cleaning that was done on the data was to rename the columns because
+the original column names were built from the survey questions
+(separated by periods) and they were very long and tedious to work with.
+Additionally, during the building of the following graphs, responses
+that were left blank were omitted to focus on relevant responses. We
+also removed the first row as it served as almost a second title row but
+was being counted in the rows of data. We considered labeling the blank
+/ no answer spaces as N/A but N/A means something in this data as it is
+a valid response to specific check boxes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Read in data}
+\NormalTok{sleeping\_alone\_data1 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"R\_sleeping\_alone.csv"}\NormalTok{, }\AttributeTok{stringsAsFactors =}\NormalTok{ T)}
+
+\CommentTok{\# Take a look at the relationship status column, 7 categories}
+\CommentTok{\#summary(sleeping\_alone\_data1)}
+
+\CommentTok{\# Rename columns to simpler names based on survey questions}
+\NormalTok{sleeping\_alone\_data }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data1 }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{rename}\NormalTok{( }\AttributeTok{Relationship\_Status =}\NormalTok{ Which.of.the.following.best.describes.your.current.relationship.status., }
+         \AttributeTok{Relationship\_Length =}\NormalTok{ How.long.have.you.been.in.your.current.relationship..If.you.are.not.currently.in.a.relationship..please.answer.according.to.your.last.relationship.,}
+         \AttributeTok{How\_Often\_Sep\_Beds =}\NormalTok{ When.both.you.and.your.partner.are.at.home..how.often.do.you.sleep.in.separate.beds., }
+         \AttributeTok{Diff\_Bed\_Where\_You\_Sleep =}\NormalTok{ When.you.re.not.sleeping.in.the.same.bed.as.your.partner..where.do.you.typically.sleep., }
+         \AttributeTok{Diff\_Bed\_Where\_Partner\_Sleep =}\NormalTok{ When.you.re.not.sleeping.in.the.same.bed..where.does.your.partner.typically.sleep., }
+         \AttributeTok{Sep\_Beds\_Reasons =}\NormalTok{ What.are.the.reasons.that.you.sleep.in.separate.beds..Please.select.all.that.apply., }
+         \AttributeTok{When\_First\_Time\_Sep\_Beds =}\NormalTok{ When.was.the.first.time.you.slept.in.separate.beds., }
+         \AttributeTok{Statement\_Help\_Stay\_Together =}\NormalTok{  To.what.extent.do.you.agree.with.the.following.statement...sleeping.in.separate.beds.helps.us.to.stay.together.., }
+         \AttributeTok{Statement\_Better\_Sleep =}\NormalTok{  To.what.extent.do.you.agree.with.the.following.statement...we.sleep.better.when.we.sleep.in.separate.beds..,}
+         \AttributeTok{Statement\_Improved\_Sex\_Life =}\NormalTok{ To.what.extent.do.you.agree.with.the.following.statement.ë\_.our.sex.life.has.improved.as.a.result.of.sleeping.in.separate.beds..ë\_, }
+         \AttributeTok{Current\_Occupation =}\NormalTok{  Which.of.the.following.best.describes.your.current.occupation.,}
+         \AttributeTok{Household\_Income =}\NormalTok{ Household.Income,  }
+         \AttributeTok{Location\_Census\_Region =}\NormalTok{ Location..Census.Region.)}
+  
+
+\NormalTok{sleeping\_alone\_data }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+
+\FunctionTok{head}\NormalTok{(sleeping\_alone\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       StartDate       EndDate                             Relationship_Status
+## 1 7/10/14 18:37 7/10/14 18:39 Single, but cohabiting with a significant other
+## 2 7/10/14 15:54 7/10/14 15:56 Single, but cohabiting with a significant other
+## 3 7/10/14 15:44 7/10/14 15:49                                         Married
+## 4 7/10/14 13:47 7/10/14 13:47                                         Married
+## 5 7/10/14 13:13 7/10/14 13:14                                         Married
+## 6  7/10/14 4:29  7/10/14 4:30 Single, but cohabiting with a significant other
+##   Relationship_Length    How_Often_Sep_Beds
+## 1           1-5 years   Once a year or less
+## 2           1-5 years A few times per month
+## 3           1-5 years                 Never
+## 4           1-5 years                 Never
+## 5           1-5 years                 Never
+## 6           1-5 years                 Never
+##                                                     Diff_Bed_Where_You_Sleep X
+## 1                                                         On the couch/chair  
+## 2 I sleep in our shared bed, my partner is the one who sleeps somewhere else  
+## 3                                                                             
+## 4                                                                             
+## 5                                                                             
+## 6                                                                             
+##                                                 Diff_Bed_Where_Partner_Sleep
+## 1 My partner sleeps in our shared bed, I'm the one who sleeps somewhere else
+## 2                                                           Separate bedroom
+## 3                                                                           
+## 4                                                                           
+## 5                                                                           
+## 6                                                                           
+##   X.1 Sep_Beds_Reasons                                                  X.2
+## 1                                                                          
+## 2     One of us snores One of us makes frequent bathroom trips in the night
+## 3                                                                          
+## 4                                                                          
+## 5                                                                          
+## 6                                                                          
+##                 X.3 X.4 X.5                            X.6 X.7
+## 1 One of us is sick                                           
+## 2 One of us is sick         We've had an argument or fight    
+## 3                                                             
+## 4                                                             
+## 5                                                             
+## 6                                                             
+##                               X.8 X.9 X.10                   X.11
+## 1                                          Other (please specify)
+## 2 Do not want to share the covers                                
+## 3                                                                
+## 4                                                                
+## 5                                                                
+## 6                                                                
+##                           When_First_Time_Sep_Beds Statement_Help_Stay_Together
+## 1   Within the first 1-5 years of our relationship            Strongly disagree
+## 2 Immediately/ We've always slept in separate beds               Somewhat agree
+## 3                                                                              
+## 4                                                                              
+## 5                                                                              
+## 6                                                                              
+##   Statement_Better_Sleep Statement_Improved_Sex_Life
+## 1         Somewhat agree           Strongly disagree
+## 2         Strongly agree           Strongly disagree
+## 3                                                   
+## 4                                                   
+## 5                                                   
+## 6                                                   
+##                                           Current_Occupation    X.12 Gender
+## 1                                     Other (please specify) Student   Male
+## 2                             Healthcare Support Occupations           Male
+## 3                                          Legal Occupations           Male
+## 4             Life, Physical, and Social Science Occupations           Male
+## 5              Office and Administrative Support Occupations           Male
+## 6 Arts, Design, Entertainment, Sports, and Media Occupations           Male
+##     Age    Household_Income                        Education
+## 1 18-29        $0 - $24,999 Some college or Associate degree
+## 2 18-29                                      Bachelor degree
+## 3 18-29           $150,000+                  Graduate degree
+## 4 18-29   $25,000 - $49,999                  Bachelor degree
+## 5 18-29 $100,000 - $149,999                  Graduate degree
+## 6 18-29        $0 - $24,999               High school degree
+##   Location_Census_Region
+## 1                Pacific
+## 2         South Atlantic
+## 3         South Atlantic
+## 4        Middle Atlantic
+## 5         South Atlantic
+## 6     East North Central
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{data-visualizations}{%
+\section{2. Data Visualizations}\label{data-visualizations}}
+
+\hypertarget{length-of-relationship-and-age-graph-1}{%
+\subsection{2.1 Length of Relationship and Age (Graph
+1):}\label{length-of-relationship-and-age-graph-1}}
+
+\textbf{The following figures aim to elate the length of relationships,
+bed status (separate beds vs same bed), and age.} \textbf{Additionally,
+the start of sleeping separately in looked at.} \textbf{Is it more
+likely that couples who have been together longer will sleep in separate
+beds more often?}
+
+\hypertarget{graph-1-halina}{%
+\subsubsection{2.1.1 Graph 1 --\textgreater{}
+Halina}\label{graph-1-halina}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sleeping\_alone\_data2 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{filter}\NormalTok{(Relationship\_Length }\SpecialCharTok{!=} \StringTok{""}\NormalTok{, How\_Often\_Sep\_Beds }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{group\_by}\NormalTok{(Relationship\_Length, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count\_freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Proportion =} \FunctionTok{round}\NormalTok{(count\_freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count\_freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{select}\NormalTok{(Relationship\_Length, How\_Often\_Sep\_Beds, Proportion) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Relationship_Length'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rel\_length\_bar }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data2,}
+                            \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Relationship\_Length,}
+                                          \AttributeTok{y =}\NormalTok{ Proportion, }
+                                          \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+                     \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+  
+                     \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Relationship Length"}\NormalTok{,}
+                          \AttributeTok{fill =} \StringTok{"How Often Couples Sleep Separately"}\NormalTok{, }
+                          \AttributeTok{title =} \StringTok{"Frequency Sleeping Separately and Relationship Length (proportions)"}\NormalTok{)}\SpecialCharTok{+}
+  
+                    \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+                    \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Relationship Length (years)"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"1{-}5"}\NormalTok{, }\StringTok{"11{-}15"}\NormalTok{, }\StringTok{"16{-}20"}\NormalTok{, }\StringTok{"6{-}10"}\NormalTok{,}\StringTok{"\textless{} 1"}\NormalTok{, }\StringTok{"\textgreater{} 20"}\NormalTok{ )) }\SpecialCharTok{+}
+                    \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{How\_Often\_Sep\_Beds) }\SpecialCharTok{+}
+                    \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"NA"}\NormalTok{, }
+                          \AttributeTok{title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{9}\NormalTok{)) }\SpecialCharTok{+}
+                    \FunctionTok{coord\_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sleeping\_alone\_data3 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{filter}\NormalTok{(Age }\SpecialCharTok{!=} \StringTok{""}\NormalTok{, How\_Often\_Sep\_Beds }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{group\_by}\NormalTok{(Age, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count\_freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Proportion =} \FunctionTok{round}\NormalTok{(count\_freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count\_freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{select}\NormalTok{(Age, How\_Often\_Sep\_Beds, Proportion) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Age'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prop\_age\_bar }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data3,}
+                            \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Age,}
+                                          \AttributeTok{y =}\NormalTok{ Proportion, }
+                                          \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+                     \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+  
+                     \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Age"}\NormalTok{,}
+                          \AttributeTok{fill =} \StringTok{"How Often Couples Sleep Separately"}\NormalTok{, }
+                          \AttributeTok{title =} \StringTok{"Frequency Sleeping Separately and Age (proportions)"}\NormalTok{)}\SpecialCharTok{+}
+  
+                    \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent)}\SpecialCharTok{+} 
+                    \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Age Range"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"60{-}Up"}\NormalTok{, }\StringTok{"18{-}29"}\NormalTok{, }\StringTok{"30{-}44"}\NormalTok{, }\StringTok{"45{-}60"}\NormalTok{)) }\SpecialCharTok{+}
+                    \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{How\_Often\_Sep\_Beds) }\SpecialCharTok{+}
+                    \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"NA"}\NormalTok{, }
+                          \AttributeTok{title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{9}\NormalTok{)) }\SpecialCharTok{+}
+                    \FunctionTok{coord\_flip}\NormalTok{()}
+
+
+\FunctionTok{plot\_grid}\NormalTok{(rel\_length\_bar, prop\_age\_bar, }\AttributeTok{nrows =} \DecValTok{2}\NormalTok{, }\AttributeTok{ncols =} \DecValTok{1}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in as_grob.default(plot): Cannot convert object of class numeric into a
+## grob.
+
+## Warning in as_grob.default(plot): Cannot convert object of class numeric into a
+## grob.
+\end{verbatim}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2a_graph1.1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Thinking about omitting this graph but we think it would be interesting to still examine the starting }
+\CommentTok{\# point of sleeping separately within the relationship span. }
+
+\NormalTok{length\_and\_start\_graph }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(Age }\SpecialCharTok{!=} \StringTok{""}\NormalTok{, How\_Often\_Sep\_Beds }\SpecialCharTok{!=} \StringTok{""}\NormalTok{, When\_First\_Time\_Sep\_Beds }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Relationship\_Length,}
+                      \AttributeTok{y =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{color =}\NormalTok{ When\_First\_Time\_Sep\_Beds)) }\SpecialCharTok{+}
+
+  \FunctionTok{facet\_wrap}\NormalTok{(}\AttributeTok{facets =} \SpecialCharTok{\textasciitilde{}}\NormalTok{When\_First\_Time\_Sep\_Beds) }\SpecialCharTok{+}
+
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Relationship Length (years)"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"1{-}5"}\NormalTok{, }\StringTok{"11{-}15"}\NormalTok{, }\StringTok{"16{-}20"}\NormalTok{, }\StringTok{"6{-}10"}\NormalTok{,}\StringTok{"\textless{} 1"}\NormalTok{, }\StringTok{"\textgreater{} 20"}\NormalTok{ )) }\SpecialCharTok{+}
+
+  \FunctionTok{scale\_y\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"How Often Couple Sleeps in Separate Beds"}\NormalTok{, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Few Times Per Month"}\NormalTok{, }\StringTok{"Few Times Per Week"}\NormalTok{, }\StringTok{"Every Night"}\NormalTok{, }\StringTok{"Never"}\NormalTok{, }\StringTok{"Once a Month or Less"}\NormalTok{,}\StringTok{"Once a Year or Less"}\NormalTok{)) }\SpecialCharTok{+}
+
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"NA"}\NormalTok{) }\SpecialCharTok{+}
+
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Relationship Length, Frequency Sleeping in Separate Beds, and When it Started"}\NormalTok{)}
+
+\NormalTok{length\_and\_start\_graph}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2a_graph1.2-1.pdf}
+
+\hypertarget{summarizing-paragraph}{%
+\subsubsection{2.1.2 Summarizing
+Paragraph:}\label{summarizing-paragraph}}
+
+From the first two graphs, it is clear that the majority of couples who
+took the survey do not sleep separately. From the first graph, around
+18\% of couples who have been in a relationship for 16-20 years and more
+than 20 years do sleep in separate beds. These percentages are on the
+higher end for proportions of couples that have slept or do sleep
+separately. This aspect of the data fits our society's stereotyping that
+couples who have been together longer are more likely to sleep
+separately. Another notable percentage is that almost 20\% of couples
+who have been together for less than a year reported sleeping separately
+once a month or less.
+
+From the last graph, which aims to show patterns in when sleeping
+separately starts, it appears that the majority of couples who do sleep
+in separate beds every night started sleeping separately earlier on in
+the relationship (within 1-5 years of the relationship) as can be seen
+in the last figure (bottom left pink), but also note that the
+relationship lengths that follow this pattern are mainly under 20 years
+in length and greater than 1 year. Another interesting pattern that can
+be noted is that for those who have been in a very long-term
+relationship (greater than 20 years), the majority of those couples
+sleeping in separate beds every night or a few times per week started
+this sleeping situation within 16 to 20 year or more than 20 years into
+their relationship. So, the couples with long relationships actually did
+not sleep separately until many years together had passed.
+
+The first two graphs do fit what the public might expect to see from a
+survey like this, however, it does not give any indication as to the
+reasons couples who have been together longer might be sleeping
+separately. The following sections and figures will aim to further
+examine this aspect of the population sample. More specifically, could
+occupation and income (which are often tied to how busy or occupied a
+person might be in their daily activities) be related to couple sleeping
+separately? Additionally, what are the reasons for certain categories of
+couples (older, younger, etc) sleeping separately and have they noticed
+changes in their relationship from sleeping separately?
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{occupation-and-income-graph-2-and-graph-3}{%
+\subsection{2.2 Occupation and Income (Graph 2 and Graph
+3)}\label{occupation-and-income-graph-2-and-graph-3}}
+
+\textbf{Relate occupation, income, and bed status with how often they
+sleep separately.}
+
+\textbf{Do occupational demands affect sleeping status? Is someone with
+a more demanding job more likely to sleep separately?} \textbf{(Could
+call for inclusion or examination of another data-set that has
+information on occupational categories and average hours worked per day
+or week.)}
+
+\hypertarget{graph-2}{%
+\subsubsection{2.2.1 Graph 2}\label{graph-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# GRAPH 2}
+
+\CommentTok{\# change the default theme below:}
+\FunctionTok{theme\_set}\NormalTok{(}\FunctionTok{theme\_bw}\NormalTok{())}
+\CommentTok{\# set levels in order to give a better visisualization in color}
+\CommentTok{\#summary(sleeping\_alone\_data$How\_Often\_Sep\_Beds)}
+
+\NormalTok{rank}\OtherTok{\textless{}{-}}\FunctionTok{as.factor}\NormalTok{(sleeping\_alone\_data}\SpecialCharTok{$}\NormalTok{How\_Often\_Sep\_Beds)}
+\NormalTok{sleeping\_alone\_data4 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{How\_Often\_Sep\_Beds =} \FunctionTok{factor}\NormalTok{(rank, }\AttributeTok{ordered =} \ConstantTok{TRUE}\NormalTok{, }
+                                     \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Never"}\NormalTok{,}
+                                               \StringTok{"Once a year or less"}\NormalTok{,}
+                                               \StringTok{"Once a month or less"}\NormalTok{,}
+                                               \StringTok{"A few times per month"}\NormalTok{,}
+                                               \StringTok{"A few times per week"}\NormalTok{,}
+                                               \StringTok{"Every night"}\NormalTok{)))}
+\CommentTok{\# Relate occupation to bed status (and how often they sleep)}
+\CommentTok{\# Overall plot}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Current\_Occupation)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data4,}
+       \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Current\_Occupation,}
+                     \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position=}\StringTok{"dodge"}\NormalTok{)}\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{legend.position =} \StringTok{"top"}\NormalTok{,}
+        \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{legend.key.size =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.25}\NormalTok{,}\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{),}
+        \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=} \DecValTok{8}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summary() to see each category name and ready to draw plots for each of }
+\CommentTok{\# the categories. facet\_wrap or facet\_grid provide too little information}
+\CommentTok{\#summary(sleeping\_alone\_data$How\_Often\_Sep\_Beds)}
+\DocumentationTok{\#\#\#\# for each bed status below:}
+\CommentTok{\# Never}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Never"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"purple4"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Once a year or less }
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Once a year or less"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"darkslateblue"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Once a month or less}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Once a month or less"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"cadetblue4"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# A few times per month }
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"A few times per month"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"lightseagreen"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# A few times per week}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"A few times per week"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"palegreen3"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Every night}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Every night"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Current\_Occupation,}
+              \AttributeTok{color=}\NormalTok{ How\_Often\_Sep\_Beds))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"khaki1"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# for people who have further response instead of checking boxes}
+\DocumentationTok{\#\# (choose to plot those who answered "retired" or "Retired)}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(X}\FloatTok{.12} \SpecialCharTok{==} \StringTok{"retired"} \SpecialCharTok{|}\NormalTok{ X}\FloatTok{.12} \SpecialCharTok{==} \StringTok{"Retired"}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{X.12 =}\StringTok{"retired"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ X}\FloatTok{.12}\NormalTok{, }\AttributeTok{fill=}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{color=}\StringTok{"white"}\NormalTok{,}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{)}\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{()) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph2-8.pdf}
+
+\hypertarget{summarizing-paragraph-1}{%
+\subsubsection{2.2.2 Summarizing
+Paragraph:}\label{summarizing-paragraph-1}}
+
+People who are in Education, Training, and Library Occupations seems to
+have more response of ``Never'' sleeping separately. Regardless of the
+occupation, The number of people who sleep separately is bigger than
+other frequencies.
+
+For people who checked the box of ``Other(please specify)'', we select
+retired samples to draw a bar graph. Distribution of people who retired
+have heavy tails on both side(Never \& Every night), but the number of
+people who never sleeping separately is almost twice as large as those
+who sleeping separately every night.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{graph-3}{%
+\subsubsection{2.2.3 Graph 3}\label{graph-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# GRAPH 3}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data4,}
+       \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Current\_Occupation,}
+                     \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{(}\AttributeTok{option =} \StringTok{"cividis"}\NormalTok{)}\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{legend.position =} \StringTok{"top"}\NormalTok{,}
+        \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{legend.key.size =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.25}\NormalTok{,}\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{),}
+        \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=} \DecValTok{8}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# for each bed status below:}
+\CommentTok{\# Never}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds,Gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Never"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds,}
+             \AttributeTok{fill =}\NormalTok{ Gender))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Once a year or less }
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds,Gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Once a year or less"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds,}
+             \AttributeTok{fill =}\NormalTok{ Gender))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Once a month or less}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Gender }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds,Gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Once a month or less"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds,}
+             \AttributeTok{fill =}\NormalTok{ Gender))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# A few times per month }
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Gender }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds,Gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"A few times per month"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds,}
+             \AttributeTok{fill =}\NormalTok{ Gender))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# A few times per week}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Gender }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds,Gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"A few times per week"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds,}
+             \AttributeTok{fill =}\NormalTok{ Gender))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Every night}
+\NormalTok{sleeping\_alone\_data4 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Gender }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Current\_Occupation,How\_Often\_Sep\_Beds,Gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(How\_Often\_Sep\_Beds }\SpecialCharTok{==} \StringTok{"Every night"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Current\_Occupation,}
+             \AttributeTok{color =}\NormalTok{ How\_Often\_Sep\_Beds,}
+             \AttributeTok{fill =}\NormalTok{ Gender))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}
+                                   \AttributeTok{hjust =} \DecValTok{1}\NormalTok{,}
+                                   \AttributeTok{vjust =} \FloatTok{0.25}\NormalTok{,}
+                                   \AttributeTok{size =} \DecValTok{7}\NormalTok{),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_blank}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2b_graph3-7.pdf}
+
+\hypertarget{summarizing-paragraph-2}{%
+\subsubsection{2.2.4 Summarizing
+Paragraph:}\label{summarizing-paragraph-2}}
+
+When we add gender as another consideration of our plots, it seems that
+there are more male participants for this study. For each frequencies of
+how often they sleep separately, there is a significant difference in
+number for the response of Never \& Every night(males more than
+females). For other response of this question, the number in difference
+is not significant. People who does not specify their gender has a large
+proportion of responding to ``Never''.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{reasons-for-sleeping-separately-graph-4-matthew}{%
+\subsection{2.3 Reasons for Sleeping Separately (Graph 4)
+--\textgreater{}
+Matthew}\label{reasons-for-sleeping-separately-graph-4-matthew}}
+
+\textbf{Relate how often couples sleep in different beds with the reason
+they sleep separately.}
+
+\textbf{How correlated are the reasons they sleep in separate beds with
+the frequency they sleep together?} \textbf{Reasons include snoring,
+frequent bathroom trips, sickness, intimacy issues, etc.}
+
+\hypertarget{graph-4}{%
+\subsubsection{2.3.1 Graph 4}\label{graph-4}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# GRAPH 4}
+
+\CommentTok{\#Horizontal Bar Chart for Reason 1}
+\NormalTok{sleeping\_alone\_data5 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{group\_by}\NormalTok{(Sep\_Beds\_Reasons, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Prop =} \FunctionTok{round}\NormalTok{(freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{select}\NormalTok{(Sep\_Beds\_Reasons, How\_Often\_Sep\_Beds, Prop) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Sep_Beds_Reasons'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{BarOftenVsReason1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data5,}
+                               \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Prop,}
+                                             \AttributeTok{x =}\NormalTok{ How\_Often\_Sep\_Beds,}
+                                             \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{show.legend =}\NormalTok{ F) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"One of Us Snores"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{""}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\CommentTok{\#Horizontal Bar Chart for Reason 2}
+\NormalTok{sleeping\_alone\_data6 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{group\_by}\NormalTok{(X}\FloatTok{.2}\NormalTok{, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Prop =} \FunctionTok{round}\NormalTok{(freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{select}\NormalTok{(X}\FloatTok{.2}\NormalTok{, How\_Often\_Sep\_Beds, Prop) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'X.2'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{BarOftenVsReason2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data6,}
+                               \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Prop,}
+                                             \AttributeTok{x =}\NormalTok{ How\_Often\_Sep\_Beds,}
+                                             \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{show.legend =}\NormalTok{ F) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Frequent Bathroom Trips"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{""}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\CommentTok{\#Horizontal Bar Chart for Reason 3}
+\NormalTok{sleeping\_alone\_data7 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{group\_by}\NormalTok{(X}\FloatTok{.4}\NormalTok{, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Prop =} \FunctionTok{round}\NormalTok{(freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{select}\NormalTok{(X}\FloatTok{.4}\NormalTok{, How\_Often\_Sep\_Beds, Prop) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'X.4'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{BarOftenVsReason3 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data7,}
+                               \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Prop,}
+                                             \AttributeTok{x =}\NormalTok{ How\_Often\_Sep\_Beds,}
+                                             \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{show.legend =}\NormalTok{ F) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"No Longer Physically Intimate"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{""}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\CommentTok{\#Horizontal Bar Chart for Reason 4}
+\NormalTok{sleeping\_alone\_data8 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{group\_by}\NormalTok{(X}\FloatTok{.5}\NormalTok{, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Prop =} \FunctionTok{round}\NormalTok{(freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{select}\NormalTok{(X}\FloatTok{.5}\NormalTok{, How\_Often\_Sep\_Beds, Prop) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'X.5'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{BarOftenVsReason4 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data8,}
+                               \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Prop,}
+                                             \AttributeTok{x =}\NormalTok{ How\_Often\_Sep\_Beds,}
+                                             \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{show.legend =}\NormalTok{ F) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Different Temperature Preferences"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{""}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\CommentTok{\#Horizontal Bar Chart for Reason 5}
+\NormalTok{sleeping\_alone\_data9 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{group\_by}\NormalTok{(X}\FloatTok{.6}\NormalTok{, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Prop =} \FunctionTok{round}\NormalTok{(freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{select}\NormalTok{(X}\FloatTok{.6}\NormalTok{, How\_Often\_Sep\_Beds, Prop) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'X.6'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{BarOftenVsReason5 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data9,}
+                               \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Prop,}
+                                             \AttributeTok{x =}\NormalTok{ How\_Often\_Sep\_Beds,}
+                                             \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{show.legend =}\NormalTok{ F) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Arguments / Fights"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{""}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\CommentTok{\#Horizontal Bar Chart for Reason 6}
+\NormalTok{sleeping\_alone\_data10 }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{group\_by}\NormalTok{(X}\FloatTok{.8}\NormalTok{, How\_Often\_Sep\_Beds) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Prop =} \FunctionTok{round}\NormalTok{(freq}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(freq), }\AttributeTok{digits =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{select}\NormalTok{(X}\FloatTok{.8}\NormalTok{, How\_Often\_Sep\_Beds, Prop) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{slice}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'X.8'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{BarOftenVsReason6 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sleeping\_alone\_data10,}
+                               \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Prop,}
+                                             \AttributeTok{x =}\NormalTok{ How\_Often\_Sep\_Beds,}
+                                             \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{show.legend =}\NormalTok{ F) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Not Wanting to Share Covers"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{""}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent) }\SpecialCharTok{+}
+  
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\FunctionTok{grid.arrange}\NormalTok{(BarOftenVsReason1, BarOftenVsReason2, BarOftenVsReason3, BarOftenVsReason4, BarOftenVsReason5, BarOftenVsReason6,}\AttributeTok{nrow =} \DecValTok{2}\NormalTok{,}
+             \AttributeTok{top=}\FunctionTok{textGrob}\NormalTok{(}\StringTok{"Comparing How Often Couples Sleep In Different Beds With Reasons They Sleep Separately"}\NormalTok{, }
+             \AttributeTok{gp=}\FunctionTok{gpar}\NormalTok{ (}\AttributeTok{fontsize=}\DecValTok{10}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2c_graph4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# GRAPH 5}
+
+\NormalTok{help\_stay\_together }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Statement\_Help\_Stay\_Together }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+                      \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Statement\_Help\_Stay\_Together,}
+                                           \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+                     \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+                     \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Helped Us Stay Together"}\NormalTok{,}
+                          \AttributeTok{fill =} \StringTok{"How Often Couples Sleep Separately"}\NormalTok{,}
+                          \AttributeTok{title =} \StringTok{"Frequency Sleeping Separately and Improvements"}\NormalTok{) }\SpecialCharTok{+}
+                     \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"NA"}\NormalTok{, }
+                           \AttributeTok{title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{9}\NormalTok{)) }\SpecialCharTok{+}
+                     \FunctionTok{coord\_flip}\NormalTok{()}
+
+\NormalTok{better\_sleep }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Statement\_Better\_Sleep }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+                      \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Statement\_Better\_Sleep,}
+                                           \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+                     \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+                     \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Helped Improve Sleep"}\NormalTok{,}
+                          \AttributeTok{fill =} \StringTok{"How Often Couples Sleep Separately"}\NormalTok{) }\SpecialCharTok{+}
+                     \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"NA"}\NormalTok{ ) }\SpecialCharTok{+}
+                     \FunctionTok{coord\_flip}\NormalTok{()}
+
+\NormalTok{improved\_sex\_life }\OtherTok{\textless{}{-}}\NormalTok{ sleeping\_alone\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Statement\_Improved\_Sex\_Life }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+                      \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Statement\_Improved\_Sex\_Life,}
+                                           \AttributeTok{fill =}\NormalTok{ How\_Often\_Sep\_Beds)) }\SpecialCharTok{+}
+                     \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+                     \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Helped Improve Sex Life"}\NormalTok{,}
+                          \AttributeTok{fill =} \StringTok{"How Often Couples Sleep Separately"}\NormalTok{) }\SpecialCharTok{+}
+                     \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{,}
+                           \AttributeTok{legend.key.size =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.25}\NormalTok{, }\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{), }
+                           \AttributeTok{legend.title =} \FunctionTok{element\_blank}\NormalTok{(), }
+                           \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\DecValTok{9}\NormalTok{)) }\SpecialCharTok{+}
+                     \FunctionTok{coord\_flip}\NormalTok{()}
+
+
+
+\FunctionTok{plot\_grid}\NormalTok{(help\_stay\_together, better\_sleep, improved\_sex\_life, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{2}\NormalTok{, }\AttributeTok{label\_size =} \DecValTok{9}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{STAT187-Final-Project_files/figure-latex/2c_graph4.1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?plot\_grid}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## starting httpd help server ... done
+\end{verbatim}
+
+\hypertarget{summarizing-paragraph-3}{%
+\subsubsection{2.3.2 Summarizing
+Paragraph:}\label{summarizing-paragraph-3}}
+
+These graphs compare how often couples sleep in different beds with some
+reasons why they sleep separately. The reason that the percentages add
+up to over 100\% is because this part of the survey involved selecting
+all that applied. One specific pattern that I notice is that sleeping
+separately ``a few times per month'' is clearly the least common
+response among all reasons. Most of the reasons have the highest
+percentage of sleeping separately ``every night'', except for arguments
+and fights which has by far the lowest percentage. This makes sense to
+think about because couples do not usually have arguments or fights
+every night. They generally happen on occasion, which is why the
+arguments/fights graph has the highest percentage of sleeping separately
+``once a year or less'' and ``once a month or less''. Besides arguments
+and fights, the graphs have similar distributions.
+
+In terms of imrpovements, majority of couples who sleep in separate beds
+every night who did not anser neutrally, reported strongly agreeing with
+the statement ``it helped save our relationship''. Most notably, the
+vast majority of couples sleeping separately every night stated that
+sleeping separately improved their sleep. When it comes to improvements
+in sex life, the results are less descriptive and there seems to be less
+unanimous improvements in this category. Overall, the reasons that
+couples chose to sleep apart every night were practical sleep reasons
+relating to sleeping habits such as temperature differences,
+middle-of-the-night disturbances, snoring, and cover-sharing.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{conclusions}{%
+\section{3 Conclusions:}\label{conclusions}}
+
+This data does illustrate a tendancy toward stereotypical patterns in
+our society regarding age / relationship length and sleeping situation.
+That being that couples who are older (or have one partner who is older)
+are more likely to sleep in separate beds. Additionally couples who have
+been together for at least a decade are much more likely to sleep in
+separate beds. That being said, the purpose of this data was to help
+shed light on the factors involved in sleeping separately and allow us
+to examine the reasons why couples choose ot sleep separately. It seems
+that the reasons are highly related to comfort and to getting the best
+quality of sleep. The stereotype of age / relationship length and
+separate sleeping usually has to do with stereotypes about ``romance
+fading away'' or things of the kind. However, the most popular reasons
+in general are far more specific and practical. It is understandable
+that couples who have been together longer (say 16-20) years may be at
+the point where they can comfortably communicate that it would be best
+to have separate beds.
+
+\hypertarget{limitations-recommendations}{%
+\section{4 Limitations /
+Recommendations:}\label{limitations-recommendations}}
+
+There are several limitations to this data. The aspect of gender
+identity is neglected in this survey, only male and female options are
+given and there is no indication of which gender identity the partner or
+the person taking the survey is. It would be an interesting aspect to
+consider the patterns among different types of couples in the US (in
+terms of gender and sexual identity and how that varies depending on
+age/generation).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

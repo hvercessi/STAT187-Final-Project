@@ -8,10 +8,12 @@ output:
   html_document:
     toc: yes
     df_print: paged
+  pdf_document:
+    toc: yes
 ---
   
 
-```{r setup, message = FALSE}
+```{r setup, message = FALSE, warning=F}
 knitr::opts_chunk$set(echo = TRUE,
                       fig.width=12, 
                       fig.height=10)
@@ -79,7 +81,7 @@ response to specific check boxes.
 
 
 
-```{r clean_data}
+```{r clean_data, message=F, warning=F}
 
 # Read in data
 sleeping_alone_data1 <- read.csv("R_sleeping_alone.csv", stringsAsFactors = T)
@@ -107,7 +109,7 @@ sleeping_alone_data <- sleeping_alone_data1 %>%
 
 sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
 
-head(sleeping_alone_data)
+skim(sleeping_alone_data)
 
 ```
 
