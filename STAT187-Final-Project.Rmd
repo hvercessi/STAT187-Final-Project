@@ -120,6 +120,11 @@ skim(sleeping_alone_data)
 
 ## 2.1 Length of Relationship and Age (Graph 1):  
 
+## TO DO: 
+- rearrange the levels of the factor so the relationship duration groups are in order: <1, 1 - 5, etc...
+- place graphs below each other
+- arrange how often couples sleep in separate beds in order of frequency as well: Never, once a year, once a month, few times per week, every night
+
 
 **The following figures aim to elate the length of relationships, bed status (separate beds vs same bed), and age.**
 **Additionally, the start of sleeping separately in looked at.**
@@ -216,6 +221,11 @@ plot_grid(rel_length_bar, prop_age_bar, nrows = 2, ncols = 1)
 
 # Thinking about omitting this graph but we think it would be interesting to still examine the starting 
 # point of sleeping separately within the relationship span. 
+
+#TO DO
+#the two dots shouldn't be by themselves
+# (Can't start sleeping in separate beds after 20 years if they've only been in the relationship for 1 - 5 years)
+# try jittering the points less so it is more apparent to the reader which groups the dot belongs to. (default jitter choices may cause the points to move a little too much)
 
 length_and_start_graph <- sleeping_alone_data %>%
   filter(Age != "", How_Often_Sep_Beds != "", When_First_Time_Sep_Beds != "") %>%
@@ -772,7 +782,6 @@ improved_sex_life <- sleeping_alone_data %>% filter(Statement_Improved_Sex_Life 
 
 plot_grid(help_stay_together, better_sleep, improved_sex_life, ncol = 2, nrow = 2, label_size = 9) 
 
-?plot_grid
 
 ```
 ### 2.3.2 Summarizing Paragraph:
