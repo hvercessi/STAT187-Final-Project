@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Load the packages
 pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
-               usmap, maps, statebins, viridis, leaflet, cowplot, gridExtra)
+               usmap, maps, statebins, viridis, leaflet, cowplot, gridExtra, rpart, rpart.plot, caret, caTools)
 
 ```  
 
@@ -109,7 +109,7 @@ sleeping_alone_data <- sleeping_alone_data1 %>%
 
 sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
 
-skim(sleeping_alone_data)
+#skim(sleeping_alone_data)
 
 ```
 
@@ -211,7 +211,7 @@ prop_age_bar <- ggplot(data = sleeping_alone_data3,
                     coord_flip()
 
 
-plot_grid(rel_length_bar, prop_age_bar, nrows = 2, ncols = 1) 
+plot_grid(rel_length_bar, prop_age_bar, nrows = 1, ncols = 1) 
 
 ```
 
@@ -798,8 +798,8 @@ happen on occasion, which is why the arguments/fights graph has the highest perc
 of sleeping separately "once a year or less" and "once a month or less". Besides 
 arguments and fights, the graphs have similar distributions.
 
-In terms of imrpovements, majority of couples who sleep in separate beds every night 
-who did not anser neutrally, reported strongly agreeing with the statement "it helped save our relationship". 
+In terms of improvements, majority of couples who sleep in separate beds every night 
+who did not answer neutrally, reported strongly agreeing with the statement "it helped save our relationship". 
 Most notably, the vast majority of couples sleeping separately every night stated that sleeping 
 separately improved their sleep. When it comes to improvements in sex life, the results are 
 less descriptive and there seems to be less unanimous improvements in this category. 
@@ -810,6 +810,58 @@ snoring, and cover-sharing.
 
 ***
 
+
+## Machine Learning Methods:  
+Apply one or more of the modeling or other machine learning techniques that we’ve learned in class. 
+Describe your reasons for using the method – why it is appropriate. Describe the conclusions of each particular analysis. 
+Include more visualizations, as needed.
+
+Can we predict how often a couple will be likely to sleep in separate beds based on Relationship Status, Relationship Length, Age, and Current Occupation?
+
+The feature we want to classify is How_Often_Sep_Beds (how often couples sleep separately). We will be using a decision tree to model the data because each of the features which we are analyzing are categorical variables and the target variable is also categorical. 
+
+#### Create Training and Test Data
+``` {r splitdata, warning = FALSE}
+sleeping_sep_ML <- sleeping_alone_data %>% select(How_Often_Sep_Beds, Relationship_Status, Relationship_Length, Age, Current_Occupation)
+
+# Reads an R script with a function that divides the data into training and testing data
+#source("forming training and testing sets function.R")
+
+# Fixing the "random" splitting of the data
+RNGversion('4.0.0')
+set.seed(123)
+# Using the function to create an object that stores the training and testing data sets
+holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "How_Often_Sep_Beds", train_percent = 0.80)
+
+names(holdout_sleeping)
+
+
+```
+
+#### Training a Model on the Data
+
+``` {r traintree, warning = FALSE}
+
+train_df <- data.frame(holdout_sleeping$train_x,
+                       How_Often_Sep_Beds = holdout_sleeping$train_y)
+      
+glimpse(train_df)
+sleeping_tree <- rpart(formula = How_Often_Sep_Beds ~ .,
+                     data = train_df,
+                     method = "class",
+                     parms = list(split = "information"),
+                     minsplit = 0, 
+                     minbucket = 0,
+                     cp = -1)  
+#?rpart
+#sleeping_tree
+
+
+rpart.plot(x = sleeping_tree,
+           type = 5,
+           extra = 104)
+
+```
 
 # 3 Conclusions:  
 
