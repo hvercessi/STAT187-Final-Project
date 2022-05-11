@@ -826,9 +826,9 @@ sleeping_sep_ML <- sleeping_alone_data %>%
   select(How_Often_Sep_Beds, Relationship_Length, Age) %>% 
   filter(!How_Often_Sep_Beds=="", !Age=="", !Relationship_Length=="") %>% 
   
-  mutate(Frequency_Sleeping_Sep = factor(How_Often_Sep_Beds, 
+  mutate(Binary_Sleeping_Sep = factor(How_Often_Sep_Beds, 
                             levels = c("Never", "A few times per month", "A few times per week", "Once a year or less", "Once a month or less", "Every night"),
-                            labels = c("Never", "Sometimes", "Sometimes", "Sometimes", "Sometimes", "Always"))) %>%
+                            labels = c("No", "Yes", "Yes", "Yes", "Yes", "Yes"))) %>%
   dplyr::select(-How_Often_Sep_Beds)  
   
 
@@ -840,7 +840,7 @@ sleeping_sep_ML <- sleeping_alone_data %>%
 RNGversion('4.0.0')
 set.seed(123)
 # Using the function to create an object that stores the training and testing data sets
-holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Frequency_Sleeping_Sep", train_percent = 0.75)
+holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Binary_Sleeping_Sep", train_percent = 0.75)
 
 names(holdout_sleeping)
 table(holdout_sleeping$train_y) %>% 
