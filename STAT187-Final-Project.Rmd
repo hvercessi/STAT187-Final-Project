@@ -132,7 +132,7 @@ sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
 
 
 ### 2.1.1 Graph 1 --> Halina 
-```{r 2a_graph1}
+```{r 2a_graph1, message=F, warning=F}
 
 sleeping_alone_data2 <- sleeping_alone_data %>%
   
@@ -163,12 +163,12 @@ rel_length_bar <- ggplot(data = sleeping_alone_data2,
                           title = "Frequency Sleeping Separately and Relationship Length (proportions)")+
   
                     scale_y_continuous(labels = scales::percent) +
-                    scale_x_discrete(name = "Relationship Length (years)", labels = c("1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
                     facet_wrap(~How_Often_Sep_Beds) +
                     theme(legend.position = "NA", 
                           title = element_text(size = 9)) +
                     coord_flip()
 
+rel_length_bar
 
 ```
 
@@ -210,48 +210,16 @@ prop_age_bar <- ggplot(data = sleeping_alone_data3,
                           title = element_text(size = 9)) +
                     coord_flip()
 
-
-plot_grid(rel_length_bar, prop_age_bar, nrows = 1, ncols = 1) 
-
-```
-
-
-
-```{r 2a_graph1.2}
-
-# Thinking about omitting this graph but we think it would be interesting to still examine the starting 
-# point of sleeping separately within the relationship span. 
-
-#TO DO
-#the two dots shouldn't be by themselves
-# (Can't start sleeping in separate beds after 20 years if they've only been in the relationship for 1 - 5 years)
-# try jittering the points less so it is more apparent to the reader which groups the dot belongs to. (default jitter choices may cause the points to move a little too much)
-
-length_and_start_graph <- sleeping_alone_data %>%
-  filter(Age != "", How_Often_Sep_Beds != "", When_First_Time_Sep_Beds != "") %>%
-  ggplot(mapping = aes(x = Relationship_Length,
-                      y = How_Often_Sep_Beds)) +
-
-  geom_jitter(mapping = aes(color = When_First_Time_Sep_Beds)) +
-
-  facet_wrap(facets = ~When_First_Time_Sep_Beds) +
-
-  scale_x_discrete(name = "Relationship Length (years)", labels = c("1-5", "11-15", "16-20", "6-10","< 1", "> 20" )) +
-
-  scale_y_discrete(name = "How Often Couple Sleeps in Separate Beds", labels = c("Few Times Per Month", "Few Times Per Week", "Every Night", "Never", "Once a Month or Less","Once a Year or Less")) +
-
-  theme(legend.position = "NA") +
-
-  labs(title = "Relationship Length, Frequency Sleeping in Separate Beds, and When it Started")
-
-length_and_start_graph
+prop_age_bar
 
 ```
+
+
 
 
 ### 2.1.2 Summarizing Paragraph:
 
-From the first two graphs, it is clear that the majority of couples who took the 
+From these two graphs, it is clear that the majority of couples who took the 
 survey do not sleep separately. From the first graph, around 18% of couples who
 have been in a relationship for 16-20 years and more than 20 years do sleep in 
 separate beds. These percentages are on the higher end for proportions of couples 
@@ -260,19 +228,7 @@ stereotyping that couples who have been together longer are more likely to sleep
 separately. Another notable percentage is that almost 20% of couples who have been 
 together for less than a year reported sleeping separately once a month or less. 
 
-From the last graph, which aims to show patterns in when sleeping separately starts, 
-it appears that the majority of couples who do sleep in separate beds every night 
-started sleeping separately earlier on in the relationship (within 1-5 years of the 
-relationship) as can be seen in the last figure (bottom left pink), but also note 
-that the relationship lengths that follow this pattern are mainly under 20 years 
-in length and greater than 1 year. Another interesting pattern that can be noted 
-is that for those who have been in a very long-term relationship (greater than 20 
-years), the majority of those couples sleeping in separate beds every night or a 
-few times per week started this sleeping situation within 16 to 20 year or more
-than 20 years into their relationship. So, the couples with long relationships 
-actually did not sleep separately until many years together had passed. 
-
-The first two graphs do fit what the public might expect to see from a survey like 
+These graphs communicate and fit what the public might expect to see from a survey like 
 this, however, it does not give any indication as to the reasons couples who have 
 been together longer might be sleeping separately. The following sections and figures 
 will aim to further examine this aspect of the population sample. More specifically,
@@ -888,7 +844,7 @@ sleeping_tree$cptable %>%
   
 
 sleeping_pruned <- prune(sleeping_tree,
-                       cp = 0.005)
+                       cp = 0.003)
 
 rpart.plot(x = sleeping_pruned,
            type = 5,
