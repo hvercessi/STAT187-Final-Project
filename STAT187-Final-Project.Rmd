@@ -822,7 +822,16 @@ The feature we want to classify is How_Often_Sep_Beds (how often couples sleep s
 
 #### Create Training and Test Data
 ``` {r splitdata, warning = FALSE}
-sleeping_sep_ML <- sleeping_alone_data %>% select(How_Often_Sep_Beds, Relationship_Status, Relationship_Length, Age, Current_Occupation)
+sleeping_sep_ML <- sleeping_alone_data %>% 
+  select(How_Often_Sep_Beds, Relationship_Length, Age) %>% 
+  filter(!How_Often_Sep_Beds=="", !Age=="", !Relationship_Length=="") %>% 
+  
+  mutate(Frequency_Sleeping_Sep = factor(How_Often_Sep_Beds, 
+                            levels = c("Never", "A few times per month", "A few times per week", "Once a year or less", "Once a month or less", "Every night"),
+                            labels = c("Never", "Sometimes", "Sometimes", "Sometimes", "Sometimes", "Always"))) %>%
+  dplyr::select(-How_Often_Sep_Beds)  
+  
+
 
 # Reads an R script with a function that divides the data into training and testing data
 #source("forming training and testing sets function.R")
@@ -831,10 +840,16 @@ sleeping_sep_ML <- sleeping_alone_data %>% select(How_Often_Sep_Beds, Relationsh
 RNGversion('4.0.0')
 set.seed(123)
 # Using the function to create an object that stores the training and testing data sets
-holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "How_Often_Sep_Beds", train_percent = 0.80)
+holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Frequency_Sleeping_Sep", train_percent = 0.75)
 
 names(holdout_sleeping)
+table(holdout_sleeping$train_y) %>% 
+  prop.table() %>% 
+  round(digits = 5)
 
+table(holdout_sleeping$test_y) %>% 
+  prop.table() %>% 
+  round(digits = 5)
 
 ```
 
@@ -853,13 +868,13 @@ sleeping_tree <- rpart(formula = How_Often_Sep_Beds ~ .,
                      minsplit = 0, 
                      minbucket = 0,
                      cp = -1)  
-#?rpart
-#sleeping_tree
-
+?rpart
+sleeping_tree
 
 rpart.plot(x = sleeping_tree,
            type = 5,
-           extra = 104)
+           extra = 104,
+           box.palette="steelblue")
 
 ```
 
