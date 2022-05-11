@@ -14,7 +14,6 @@ pacman::p_load(gapminder, tidyverse, skimr, socviz, grid, stringr,
                usmap, maps, statebins, viridis, leaflet, cowplot, gridExtra)
 
 
-# rm(list=ls())
 ```
 
 
