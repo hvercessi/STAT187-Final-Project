@@ -822,25 +822,23 @@ The feature we want to classify is How_Often_Sep_Beds (how often couples sleep s
 
 #### Create Training and Test Data
 ``` {r splitdata, warning = FALSE}
+RNGversion('4.0.0')
+set.seed(123)
+
 sleeping_sep_ML <- sleeping_alone_data %>% 
   select(How_Often_Sep_Beds, Relationship_Length, Age) %>% 
+  
   filter(!How_Often_Sep_Beds=="", !Age=="", !Relationship_Length=="") %>% 
   
   mutate(Binary_Sleeping_Sep = factor(How_Often_Sep_Beds, 
                             levels = c("Never", "A few times per month", "A few times per week", "Once a year or less", "Once a month or less", "Every night"),
                             labels = c("No", "Yes", "Yes", "Yes", "Yes", "Yes"))) %>%
+  
   dplyr::select(-How_Often_Sep_Beds)  
   
 
-
-# Reads an R script with a function that divides the data into training and testing data
-#source("forming training and testing sets function.R")
-
-# Fixing the "random" splitting of the data
-RNGversion('4.0.0')
-set.seed(123)
 # Using the function to create an object that stores the training and testing data sets
-holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Binary_Sleeping_Sep", train_percent = 0.75)
+holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Binary_Sleeping_Sep", train_percent = 0.60)
 
 names(holdout_sleeping)
 table(holdout_sleeping$train_y) %>% 
@@ -858,10 +856,9 @@ table(holdout_sleeping$test_y) %>%
 ``` {r traintree, warning = FALSE}
 
 train_df <- data.frame(holdout_sleeping$train_x,
-                       How_Often_Sep_Beds = holdout_sleeping$train_y)
+                       Binary_Sleeping_Sep = holdout_sleeping$train_y)
       
-glimpse(train_df)
-sleeping_tree <- rpart(formula = How_Often_Sep_Beds ~ .,
+sleeping_tree <- rpart(formula = Binary_Sleeping_Sep ~ .,
                      data = train_df,
                      method = "class",
                      parms = list(split = "information"),
@@ -876,6 +873,7 @@ rpart.plot(x = sleeping_tree,
 ```
 
 #### Pruning the Tree
+
 ``` {r prunetree}
 
 # Finding the lowest xerror:
@@ -886,17 +884,37 @@ sleeping_tree$cptable %>%
 # Locating where to prune the tree - simplest tree with xerror < min(xerror) + xstd:
 sleeping_tree$cptable %>% 
   data.frame() %>% 
-  filter(xerror < min(xerror) + 0.039058)
+  filter(xerror < min(xerror) + 0.04373847)
   
 
 sleeping_pruned <- prune(sleeping_tree,
-                       cp = 0.002)
+                       cp = 0.005)
 
 rpart.plot(x = sleeping_pruned,
            type = 5,
            extra = 104)
 ```
   
+#### Evaluating Model Performance
+
+``` {r treeperf}
+
+sleeping_pred <- predict(object = sleeping_pruned,
+                       newdata = holdout_sleeping$test_x,
+                       type = "class")
+
+
+# Confusion Matrix of predicted vs actual classes
+cm_sleeping <- 
+  confusionMatrix(data = sleeping_pred, 
+                  reference = holdout_sleeping$test_y,
+                  positive = "No",
+                  dnn = c('predicted', 'actual'))
+
+cm_sleeping
+
+```
+
 # 3 Conclusions:  
 
 This data does illustrate a tendancy toward stereotypical patterns in our society 
