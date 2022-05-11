@@ -873,8 +873,7 @@ sleeping_tree
 
 rpart.plot(x = sleeping_tree,
            type = 5,
-           extra = 104,
-           box.palette="steelblue")
+           extra = 104)
 
 ```
 
