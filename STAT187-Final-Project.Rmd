@@ -868,8 +868,6 @@ sleeping_tree <- rpart(formula = How_Often_Sep_Beds ~ .,
                      minsplit = 0, 
                      minbucket = 0,
                      cp = -1)  
-?rpart
-sleeping_tree
 
 rpart.plot(x = sleeping_tree,
            type = 5,
@@ -877,6 +875,28 @@ rpart.plot(x = sleeping_tree,
 
 ```
 
+#### Pruning the Tree
+``` {r prunetree}
+
+# Finding the lowest xerror:
+sleeping_tree$cptable %>% 
+  data.frame() %>% 
+  filter(xerror == min(xerror))
+
+# Locating where to prune the tree - simplest tree with xerror < min(xerror) + xstd:
+sleeping_tree$cptable %>% 
+  data.frame() %>% 
+  filter(xerror < min(xerror) + 0.039058)
+  
+
+sleeping_pruned <- prune(sleeping_tree,
+                       cp = 0.002)
+
+rpart.plot(x = sleeping_pruned,
+           type = 5,
+           extra = 104)
+```
+  
 # 3 Conclusions:  
 
 This data does illustrate a tendancy toward stereotypical patterns in our society 
