@@ -109,7 +109,6 @@ sleeping_alone_data <- sleeping_alone_data1 %>%
 
 sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
 
-#skim(sleeping_alone_data)
 
 ```
 
@@ -120,20 +119,11 @@ sleeping_alone_data <- sleeping_alone_data %>% slice(-c(1))
 
 ## 2.1 Length of Relationship and Age (Graph 1):  
 
-## TO DO: 
-- rearrange the levels of the factor so the relationship duration groups are in order: <1, 1 - 5, etc...
-- place graphs below each other
-- arrange how often couples sleep in separate beds in order of frequency as well: Never, once a year, once a month, few times per week, every night
 
-
-**The following figures aim to elate the length of relationships, bed status (separate beds vs same bed), and age.**
-**Additionally, the start of sleeping separately in looked at.**
-**Is it more likely that couples who have been together longer will sleep in separate beds more often?**
-
-
-### 2.1.1 Graph 1 --> Halina 
+### 2.1.1 Graph 1 
 ```{r 2a_graph1, message=F, warning=F}
 
+# Prepare data
 sleeping_alone_data2 <- sleeping_alone_data %>%
   
   filter(Relationship_Length != "", How_Often_Sep_Beds != "") %>%
@@ -150,7 +140,7 @@ sleeping_alone_data2 <- sleeping_alone_data %>%
   
   ungroup()
 
-
+# Bar graph 1: relationship length and frequency sleeping separately 
 rel_length_bar <- ggplot(data = sleeping_alone_data2,
                             mapping = aes(x = Relationship_Length,
                                           y = Proportion, 
@@ -174,7 +164,7 @@ rel_length_bar
 
 ```{r 2a_graph1.1}
 
-
+# Prepare data
 sleeping_alone_data3 <- sleeping_alone_data %>%
   
   filter(Age != "", How_Often_Sep_Beds != "") %>%
@@ -191,7 +181,7 @@ sleeping_alone_data3 <- sleeping_alone_data %>%
   
   ungroup()
 
-
+# Bar graph 2: Age and frequency sleeping separately
 prop_age_bar <- ggplot(data = sleeping_alone_data3,
                             mapping = aes(x = Age,
                                           y = Proportion, 
@@ -215,8 +205,6 @@ prop_age_bar
 ```
 
 
-
-
 ### 2.1.2 Summarizing Paragraph:
 
 From these two graphs, it is clear that the majority of couples who took the 
@@ -238,27 +226,19 @@ Additionally, what are the reasons for certain categories of couples (older, you
 sleeping separately and have they noticed changes in their relationship from sleeping separately? 
 
 
-
 ***
 
 
-## 2.2 Occupation and Income (Graph 2 and Graph 3) 
+### 2.2 Occupation and Income
 
-**Relate occupation, income, and bed status with how often they sleep separately.**
-
-**Do occupational demands affect sleeping status? Is someone with a more demanding job more likely to sleep separately?**
-**(Could call for inclusion or examination of another data-set that has information on occupational categories and average hours worked per day or week.)**
-
+# Relate occupation,gender and bed status with how often they sleep separately.
 
 ### 2.2.1 Graph 2
 ```{r 2b_graph2}
-# GRAPH 2
-
 # change the default theme below:
 theme_set(theme_bw())
-# set levels in order to give a better visisualization in color
-#summary(sleeping_alone_data$How_Often_Sep_Beds)
 
+# set levels in order to give a better visisualization in color
 rank<-as.factor(sleeping_alone_data$How_Often_Sep_Beds)
 sleeping_alone_data4 <- sleeping_alone_data %>%
   mutate(How_Often_Sep_Beds = factor(rank, ordered = TRUE, 
@@ -272,11 +252,11 @@ sleeping_alone_data4 <- sleeping_alone_data %>%
 # Overall plot
 sleeping_alone_data4 %>%
   group_by(Current_Occupation)%>%
-  ggplot(data = sleeping_alone_data4,
+  ggplot(data = sleeping_alone_data,
        mapping = aes(x = Current_Occupation,
                      fill = How_Often_Sep_Beds)) +
   geom_bar(position="dodge")+
-  
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.text.x = element_text(angle = 90,
                                    hjust = 1,
                                    vjust = 0.25,
@@ -288,9 +268,6 @@ sleeping_alone_data4 %>%
         axis.title.x = element_blank(),
         axis.title.y = element_blank())
 
-# summary() to see each category name and ready to draw plots for each of 
-# the categories. facet_wrap or facet_grid provide too little information
-#summary(sleeping_alone_data$How_Often_Sep_Beds)
 #### for each bed status below:
 # Never
 sleeping_alone_data4 %>%
@@ -299,6 +276,7 @@ sleeping_alone_data4 %>%
   ggplot(aes(y = Current_Occupation,
              color = How_Often_Sep_Beds))+
   geom_bar(fill = "purple4")+
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
   
@@ -309,6 +287,7 @@ sleeping_alone_data4 %>%
   ggplot(aes(y = Current_Occupation,
              color = How_Often_Sep_Beds))+
   geom_bar(fill = "darkslateblue")+
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # Once a month or less
@@ -318,6 +297,7 @@ sleeping_alone_data4 %>%
   ggplot(aes(y = Current_Occupation,
              color = How_Often_Sep_Beds))+
   geom_bar(fill = "cadetblue4")+
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # A few times per month 
@@ -327,6 +307,7 @@ sleeping_alone_data4 %>%
   ggplot(aes(y = Current_Occupation,
              color = How_Often_Sep_Beds))+
   geom_bar(fill = "lightseagreen")+
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # A few times per week
@@ -336,6 +317,7 @@ sleeping_alone_data4 %>%
   ggplot(aes(y = Current_Occupation,
              color = How_Often_Sep_Beds))+
   geom_bar(fill = "palegreen3")+
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 # Every night
@@ -347,6 +329,7 @@ sleeping_alone_data4 %>%
   geom_bar(fill = "khaki1")+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
+
 ## for people who have further response instead of checking boxes
 ## (choose to plot those who answered "retired" or "Retired)
 sleeping_alone_data4 %>%
@@ -356,159 +339,97 @@ sleeping_alone_data4 %>%
   ggplot(aes(x = X.12, fill= How_Often_Sep_Beds)) +
   
   geom_bar(color="white",position = "dodge")+
-  
+  labs(fill = "Frequncy Sleeping Separately") +
   theme(axis.text.x = element_text(),
         axis.title.x = element_blank(),
         axis.title.y = element_blank()) 
-
-
 ```
 
-### 2.2.2 Summarizing Paragraph:
+### 2.2.2 Summarizing Paragraph
 
-People who are in Education, Training, and Library Occupations seems to have 
-more response of "Never" sleeping separately. Regardless of the occupation,
-The number of people who sleep separately is bigger than other frequencies.
+The first thing we need to notice from the first overall plot is the proportion
+of each occupation that our participants came from. Since they all have the 
+same scale on y-axis, it is not hard to find the top 5 occupations(ranked in 
+number of participants).Also, this gave us a general sense of the make-up for
+our dataset and how representative it is.We would like to look at the top 5 
+occupations in detail and give a more specific interpretation. The top 5
+occupations, as we see in second plot, are [Education, Training, and Library 
+Occupations](138 participants),[Other (please specify)](289 participants),
+[Office and Administrative Support Occupations](82 participants),
+[Management Occupations](67 participants),[Sales and Related Occupations]
+(53 participants). 
+
+
+People who are in Education, Training, and Library Occupations seems to have the 
+most response of "Never" sleeping separately(around 50% ~ 60%). Regardless of the 
+occupation, the number of people who sleep separately is bigger than other 
+frequencies. This might refer to a bias where participants may over/under
+estimate their circumstances while doing self-evaluation.
+
 
 For people who checked the box of "Other(please specify)", we select retired 
 samples to draw a bar graph. Distribution of people who retired have heavy tails
 on both side(Never & Every night), but the number of people who never sleeping 
 separately is almost twice as large as those who sleeping separately every night.
 
-***
-
 
 ### 2.2.3 Graph 3
 ```{r 2b_graph3}
-# GRAPH 3
 
-ggplot(data = sleeping_alone_data4,
-       mapping = aes(x = Current_Occupation,
-                     fill = How_Often_Sep_Beds)) +
-  geom_bar()+
-  scale_fill_viridis_d(option = "cividis")+
+# take a look at the categories of Household_Income
+summary(sleeping_alone_data4$Household_Income)
+# change Household_Income into an ordered factor(in the dataset where 
+# How_Often_Sep_Beds alreay function as an ordered factor)
+rank<-as.factor(sleeping_alone_data4$Household_Income)
+sleeping_alone_data4_2 <- sleeping_alone_data4 %>%
+  mutate(Household_Income = factor(rank, ordered = TRUE, 
+                                     levels = c("NA",
+                                                "$0 - $24,999",
+                                                "$25,000 - $49,999",
+                                                "$50,000 - $99,999",
+                                                "$100,000 - $149,999",
+                                                "$150,000+",
+                                                "Response")))
+# create a proportion variable for plotting
+sleeping_alone_data4_2 <- sleeping_alone_data4_2 %>%
   
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
-        legend.position = "top",
-        legend.text = element_text(size = 7),
-        legend.key.size = unit(0.25,'cm'),
-        legend.title = element_text(size= 8),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank())+
-  facet_grid(~Gender)
-## for each bed status below:
-# Never
-sleeping_alone_data4 %>%
-  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
-  filter(How_Often_Sep_Beds == "Never") %>%
-  ggplot(aes(x= Current_Occupation,
-             color = How_Often_Sep_Beds,
-             fill = Gender))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank())+
-  facet_grid(~Gender)
+  group_by(Household_Income, How_Often_Sep_Beds) %>% 
+ 
+  summarise(freq = n()) %>% 
+ 
+  mutate(Prop = round(freq/sum(freq), digits = 5)) %>% 
+ 
+  select(Household_Income, How_Often_Sep_Beds, Prop) %>% 
+ 
+  ungroup()
+# make a bar plot and separate by Household_Income
+sleeping_alone_data4_2 %>% 
+  filter(Household_Income != "NA") %>%
   
-# Once a year or less 
-sleeping_alone_data4 %>%
-  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
-  filter(How_Often_Sep_Beds == "Once a year or less") %>%
-  ggplot(aes(x= Current_Occupation,
-             color = How_Often_Sep_Beds,
-             fill = Gender))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
+  ggplot(aes(y = Prop,
+             x = How_Often_Sep_Beds,
+             fill = Household_Income)) +
+  geom_col(show.legend = F)+
+  
+  scale_y_continuous(labels = scales::percent)+
+  
+  theme(axis.text.x = element_text(angle = 90),
         axis.title.x = element_blank(),
         axis.title.y = element_blank())+
-  facet_grid(~Gender)
-# Once a month or less
-sleeping_alone_data4 %>% filter(Gender != "") %>%
-  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
-  filter(How_Often_Sep_Beds == "Once a month or less") %>%
-  ggplot(aes(x= Current_Occupation,
-             color = How_Often_Sep_Beds,
-             fill = Gender))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank())+
-  facet_grid(~Gender)
-# A few times per month 
-sleeping_alone_data4 %>% filter(Gender != "") %>%
-  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
-  filter(How_Often_Sep_Beds == "A few times per month") %>%
-  ggplot(aes(x= Current_Occupation,
-             color = How_Often_Sep_Beds,
-             fill = Gender))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank())+
-  facet_grid(~Gender)
-# A few times per week
-sleeping_alone_data4 %>% filter(Gender != "") %>%
-  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
-  filter(How_Often_Sep_Beds == "A few times per week") %>%
-  ggplot(aes(x= Current_Occupation,
-             color = How_Often_Sep_Beds,
-             fill = Gender))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank())+
-  facet_grid(~Gender)
-# Every night
-sleeping_alone_data4 %>% filter(Gender != "") %>%
-  select(Current_Occupation,How_Often_Sep_Beds,Gender) %>%
-  filter(How_Often_Sep_Beds == "Every night") %>%
-  ggplot(aes(x= Current_Occupation,
-             color = How_Often_Sep_Beds,
-             fill = Gender))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1,
-                                   vjust = 0.25,
-                                   size = 7),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank())+
-  facet_grid(~Gender)
-
-
+  coord_flip()+
+  facet_wrap(~Household_Income)
 ```
-
 ### 2.2.4 Summarizing Paragraph:
-
-When we add gender as another consideration of our plots, it seems that there 
-are more male participants for this study. For each frequencies of how often 
-they sleep separately, there is a significant difference in number for the 
-response of Never & Every night(males more than females). For other response 
-of this question, the number in difference is not significant. People who
-does not specify their gender has a large proportion of responding to "Never".
-
-***
+When we relate household income to how often participants sleep separately with
+their partner, we can see that there is not a significant difference between 
+groups with different levels of income. The proportion of answers for both tails
+takes more than half of the total number of answers. The number of answer tend 
+to decrease as the frequency of sleeping separately increases, but not for both 
+tails.
 
 
 
-## 2.3 Reasons for Sleeping Separately (Graph 4) --> Matthew
+## 2.3 Reasons for Sleeping Separately (Graph 4) 
 
 **Relate how often couples sleep in different beds with the reason they sleep separately.**
 
@@ -772,20 +693,23 @@ Apply one or more of the modeling or other machine learning techniques that weâ€
 Describe your reasons for using the method â€“ why it is appropriate. Describe the conclusions of each particular analysis. 
 Include more visualizations, as needed.
 
-Can we predict how often a couple will be likely to sleep in separate beds based on Relationship Status, Relationship Length, Age, and Current Occupation?
+Can we predict if a couple sleeps separately at all based on Relationship Status, Relationship Length, Age, and Current Occupation?
 
-The feature we want to classify is How_Often_Sep_Beds (how often couples sleep separately). We will be using a decision tree to model the data because each of the features which we are analyzing are categorical variables and the target variable is also categorical. 
+The feature we want to classify is How_Often_Sep_Beds (how often couples sleep separately). We will be using a decision tree to model the data because each of the features which we are analyzing are categorical variables and the target variable is also categorical. Something to note is that the vast majority of people did answer that they never sleep separately and so we will be adjusting the frequency of sleeping separately responses to be a binary response (No = never sleep separately, Yes = do sleep separately to some degree). This will simplify the response more and allow for a model to be more useful.  
 
 #### Create Training and Test Data
+
 ``` {r splitdata, warning = FALSE}
 RNGversion('4.0.0')
 set.seed(123)
 
+# Remove empty responses
 sleeping_sep_ML <- sleeping_alone_data %>% 
   select(How_Often_Sep_Beds, Relationship_Length, Age) %>% 
   
   filter(!How_Often_Sep_Beds=="", !Age=="", !Relationship_Length=="") %>% 
   
+  # Make the response binary
   mutate(Binary_Sleeping_Sep = factor(How_Often_Sep_Beds, 
                             levels = c("Never", "A few times per month", "A few times per week", "Once a year or less", "Once a month or less", "Every night"),
                             labels = c("No", "Yes", "Yes", "Yes", "Yes", "Yes"))) %>%
@@ -793,10 +717,10 @@ sleeping_sep_ML <- sleeping_alone_data %>%
   dplyr::select(-How_Often_Sep_Beds)  
   
 
-# Using the function to create an object that stores the training and testing data sets
-holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Binary_Sleeping_Sep", train_percent = 0.60)
+# Create training and testing data sets
+holdout_sleeping <- holdout_split(df = sleeping_sep_ML, pred = "Binary_Sleeping_Sep", train_percent = 0.70)
 
-names(holdout_sleeping)
+# Check the proportions
 table(holdout_sleeping$train_y) %>% 
   prop.table() %>% 
   round(digits = 5)
@@ -811,6 +735,7 @@ table(holdout_sleeping$test_y) %>%
 
 ``` {r traintree, warning = FALSE}
 
+# Create model and train it on the training data
 train_df <- data.frame(holdout_sleeping$train_x,
                        Binary_Sleeping_Sep = holdout_sleeping$train_y)
       
@@ -840,11 +765,11 @@ sleeping_tree$cptable %>%
 # Locating where to prune the tree - simplest tree with xerror < min(xerror) + xstd:
 sleeping_tree$cptable %>% 
   data.frame() %>% 
-  filter(xerror < min(xerror) + 0.04373847)
+  filter(xerror < min(xerror) + 0.04055872)
   
-
+# CP returned is 0.01, go a little below 
 sleeping_pruned <- prune(sleeping_tree,
-                       cp = 0.003)
+                       cp = 0.006)
 
 rpart.plot(x = sleeping_pruned,
            type = 5,
@@ -870,6 +795,18 @@ cm_sleeping <-
 cm_sleeping
 
 ```
+Summary: 
+
+The accuracy of this pruned decision tree model on this data is about 60% which is somewhat low. 
+Considering the two features that were analyzed in relation to frequency sleeping separately 
+and that there were only two features that are fairly general (Relationship length and Age), 
+the model being able to predict if a couple never sleeps separately with a 60% accuracy is not bad. 
+The single CP value that was given was close to 0.01, but after trying 0.008, 0.009, and 0.01, 
+all of these CP values pruned the tree a little too much and so we went with a CP value of 0.006 which 
+resulted in the pruned tree above. One thing that the decision tree illustrated that was an unexpected insight 
+was that people in age groups over 60, 18-29, and 30-44 are shown to be more likely to not sleep separately if 
+they have been in a relationship for 16-20 than if they have been in a relationship 11-15 years. 
+
 
 # 3 Conclusions:  
 
@@ -885,6 +822,12 @@ length and separate sleeping usually has to do with stereotypes about "romance f
 things of the kind. However, the most popular reasons in general are far more specific and practical.
 It is understandable that couples who have been together longer (say 16-20) years may 
 be at the point where they can comfortably communicate that it would be best to have separate beds. 
+This data does show some nuance, however, in the relation between age of a person, relationship length, 
+and the likelihood that they sleep separately at all because in ages 44-60 the person is shown to be more
+likely to sleep separately from their partner than ages over 60. There are more factors that could be considered though.
+For example, the lens of the data could zoom in more and look specifically at people above 40 where both people in the
+relationship are above the age of 30 and aim to examine more reasons for sleeping separately that could have more emotional 
+ties than practical ties. 
 
 # 4 Limitations / Recommendations: 
 
