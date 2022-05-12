@@ -158,6 +158,8 @@ rel_length_bar <- ggplot(data = sleeping_alone_data2,
 rel_length_bar
 
 ```
+
+
 ### 2.1.2 Graph 1.1
 ```{r 2a_graph1.1}
 
@@ -226,7 +228,7 @@ sleeping separately and have they noticed changes in their relationship from sle
 ***
 
 
-### 2.2 Occupation and Income
+## 2.2 Occupation and Income
 
 ### 2.2.1 Graph 2
 
@@ -321,6 +323,9 @@ sleeping_alone_data4 %>%
        axis.title.x = element_blank(),
        axis.title.y = element_blank()) 
 ```
+
+
+
 ### 2.2.2 Summarizing Paragraph
 The first thing we need to notice from the first overall plot is the proportion
 of each occupation that our participants came from. Since they all have the 
@@ -328,10 +333,10 @@ same scale on y-axis, it is not hard to find the top 5 occupations(ranked in
 number of participants).Also, this gave us a general sense of the make-up for
 our dataset and how representative it is.We would like to look at the top 5 
 occupations in detail and give a more specific interpretation. The top 5
-occupations, as we see in second plot, are [Education, Training, and Library 
-Occupations](138 participants),[Other (please specify)](289 participants),
-[Office and Administrative Support Occupations](82 participants),
-[Management Occupations](67 participants),[Sales and Related Occupations]
+occupations, as we see in second plot, are: "Education, Training, and Library 
+Occupations" (138 participants), "Other (please specify)" (289 participants),
+"Office and Administrative Support Occupations" (82 participants),
+"Management Occupations" (67 participants), "Sales and Related Occupations"
 (53 participants). 
 
 
@@ -395,6 +400,8 @@ sleeping_alone_data4_2 %>%
   coord_flip()+
   facet_wrap(~Household_Income)
 ```
+
+
 ### 2.2.4 Summarizing Paragraph:
 When we relate household income to how often participants sleep separately with
 their partner, we can see that there is not a significant difference between 
@@ -590,6 +597,8 @@ grid.arrange(BarOftenVsReason1, BarOftenVsReason2, BarOftenVsReason3, BarOftenVs
 
 ```
 
+
+
 ### 2.3.2 Graph 4.1
 ```{r 2c_graph4.1}
 
@@ -632,6 +641,10 @@ plot_grid(help_stay_together, better_sleep, improved_sex_life, ncol = 2, nrow = 
 
 
 ```
+
+
+
+
 ### 2.3.3 Summarizing Paragraph:
 
 These graphs compare how often couples sleep in different beds with some reasons 
@@ -667,6 +680,8 @@ Include more visualizations, as needed.
 Can we predict if a couple sleeps separately at all based on Relationship Status, Relationship Length, Age, and Current Occupation?
 
 The feature we want to classify is How_Often_Sep_Beds (how often couples sleep separately). We will be using a decision tree to model the data because each of the features which we are analyzing are categorical variables and the target variable is also categorical. Something to note is that the vast majority of people did answer that they never sleep separately and so we will be adjusting the frequency of sleeping separately responses to be a binary response (No = never sleep separately, Yes = do sleep separately to some degree). This will simplify the response more and allow for a model to be more useful.  
+
+
 
 ## 3.1 Create Training and Test Data
 
@@ -713,6 +728,7 @@ table(holdout_sleeping$test_y) %>%
 
 ```
 
+
 ## 3.2 Training a Model on the Data
 
 ``` {r traintree, warning = FALSE}
@@ -734,6 +750,7 @@ rpart.plot(x = sleeping_tree,
            extra = 104)
 
 ```
+
 
 ## 3.3 Pruning the Tree
 
